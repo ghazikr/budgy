@@ -52,6 +52,11 @@ exports.getActivitiesByUser = function(req, res, next) {
       },
       {
         $unwind: "$activityCategory"
+      },
+      {
+        $project: {
+          category: 0
+        }
       }
     ],
     function(err, activities) {
