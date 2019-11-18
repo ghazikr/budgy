@@ -32,4 +32,4 @@ userSchema.methods.comparePassword = function(candidatePassword, callback) {
   });
 };
 
-const ModelClass = mongoose.model("users", userSchema);
+mongoose.model("users", userSchema);

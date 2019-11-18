@@ -2,11 +2,12 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const activitySchema = new Schema({
   name: String,
-  category: String,
+  category: { type: Schema.Types.ObjectId, ref: "category" },
   amount: Number,
   date: Date,
   activityType: String,
-  user_id: { type: Schema.Types.ObjectId, ref: "User" }
+  user_id: { type: Schema.Types.ObjectId, ref: "users" }
 });
 
-mongoose.model("activity", activitySchema);
+const model = mongoose.model("activity", activitySchema);
+exports.model = model;

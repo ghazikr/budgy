@@ -9,6 +9,7 @@ const cors = require("cors");
 const keys = require("./config/keys");
 require("./models/User");
 require("./models/Activity");
+require("./models/Category");
 require("./services/passport");
 
 mongoose.connect(keys.mongoURI);

@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const Activity = mongoose.model("activity");
+const Category = mongoose.model("category");
+const AuditTask = require("../models/Activity");
 
 exports.addActivity = function(req, res, next) {
   const { name, category, amount, date, activityType } = req.body;
@@ -8,7 +10,7 @@ exports.addActivity = function(req, res, next) {
   const activity = new Activity({
     name,
     amount,
-    category,
+    category: ObjectId("5dd1edfa11df6a38e0994be3"),
     date,
     activityType,
     user_id: req.user._id
@@ -35,15 +37,20 @@ exports.getActivitiesByUser = function(req, res, next) {
       },
       {
         $match: {
-          $and: [
-            { month: new Date(req.body.currentDate).getMonth() + 1 },
-            { user_id: ObjectId("5dcc94ce313c0a3cc07082cd") }
-          ]
-          // user_id: ObjectId(req.user._id)
-          // month: new Date(req.body.currentDate).getMonth() + 1
-          // activityType: "expense"
-          // year: new Date(req.body.currentDate).getFullYear(),
+          month: new Date(req.body.currentDate).getMonth() + 1,
+          user_id: ObjectId(req.user._id)
         }
+      },
+      {
+        $lookup: {
+          from: "categories", // orifinal collection
+          localField: "category", // id in activity
+          foreignField: "_id",
+          as: "activityCategory"
+        }
+      },
+      {
+        $unwind: "$activityCategory"
       }
     ],
     function(err, activities) {
@@ -51,9 +58,17 @@ exports.getActivitiesByUser = function(req, res, next) {
       res.json(activities);
     }
   );
-  // Activity.find({ user_id: req.user._id }, function(err, activities) {
-  //   if (err) next(err);
+};
 
-  //   res.json(activities);
-  // });
+exports.addCategory = function(req, res, next) {
+  const { name } = req.body;
+  if (!name)
+    return res.status(422).send({ error: "you must provide all details" });
+  const category = new Category({
+    name
+  });
+  category.save(err => {
+    if (err) return next(err);
+    res.json({ success: true });
+  });
 };
