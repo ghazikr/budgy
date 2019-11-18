@@ -39,8 +39,10 @@ function AddActivity(props) {
   };
 
   const onSubmit = formProps => {
+    console.log(formProps);
+
     props.addActivity(formProps, auth, () => {
-      props.getActivities(auth, props.currentDate);
+      props.getActivities(auth, props.globalDate);
     });
   };
   function handleDialogState() {
@@ -52,28 +54,30 @@ function AddActivity(props) {
     meta: { touched, error },
     children,
     ...custom
-  }) => (
-    <FormControl
-      className={classes.formControl}
-      variant="outlined"
-      error={touched && error}
-      fullWidth
-    >
-      <InputLabel htmlFor="activity-type">Type</InputLabel>
-      <Select
-        native
-        {...input}
-        {...custom}
-        inputProps={{
-          name: "activityType",
-          id: "activity-type"
-        }}
+  }) => {
+    return (
+      <FormControl
+        className={classes.formControl}
+        variant="outlined"
+        error={touched && error}
+        fullWidth
       >
-        {children}
-      </Select>
-      {renderFromHelper({ touched, error })}
-    </FormControl>
-  );
+        <InputLabel htmlFor="activity-type">Type</InputLabel>
+        <Select
+          native
+          {...input}
+          {...custom}
+          inputProps={{
+            name: "activityType",
+            id: "activity-type"
+          }}
+        >
+          {children}
+        </Select>
+        {renderFromHelper({ touched, error })}
+      </FormControl>
+    );
+  };
   const renderCustomDatePicker = ({
     label,
     input,
@@ -84,18 +88,16 @@ function AddActivity(props) {
   }) => (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <KeyboardDatePicker
-        disableToolbar
         variant="inline"
         format="dd/MM/yyyy"
         margin="normal"
         id="date-picker-inline"
         label="Date"
+        autoOk
+        fullWidth
+        inputVariant="outlined"
         {...input}
-        // value={new Date()}
-        // onChange={handleDateChange}
-        KeyboardButtonProps={{
-          "aria-label": "change date"
-        }}
+        {...custom}
       />
     </MuiPickersUtilsProvider>
   );
@@ -111,21 +113,12 @@ function AddActivity(props) {
         <DialogContentText>
           Please add the details of your activity
         </DialogContentText>
-        {/* <TextField
-          autoFocus
-          margin="dense"
-          id="name"
-          label="Email Address"
-          type="email"
-          fullWidth
-        /> */}
         <form
           className={classes.form}
           noValidate
           onSubmit={handleSubmit(onSubmit)}
         >
           <Field
-            classes={classes}
             name="activityType"
             component={renderSelectField}
             label="Activity Type"
@@ -153,7 +146,6 @@ function AddActivity(props) {
             name="date"
             placeholder="Date"
             component={renderCustomDatePicker}
-            autoComplete="none"
           />
 
           <Field
@@ -188,10 +180,16 @@ const mapStateToProps = state => ({
   errorMessage: state.auth.errorMessage,
   isAddActivityDialogOpen: state.activities.isAddActivityDialogOpen,
   auth: state.auth.authenticated,
-  currentDate: state.activities.currentDate
+  globalDate: state.activities.globalDate
 });
 
 export default compose(
-  reduxForm({ form: "addActivity" }),
+  reduxForm({
+    form: "addActivity",
+    initialValues: {
+      activityType: "expense",
+      date: new Date()
+    }
+  }),
   connect(mapStateToProps, actions)
 )(AddActivity);

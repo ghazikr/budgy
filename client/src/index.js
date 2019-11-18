@@ -28,6 +28,7 @@ ReactDOM.render(
         <Route path="/signout" component={Signout} />
         <Route path="/signin" component={Signin} />
         <Route path="/activity" component={Activity} />
+        {/* <Route path="/categories" component={Activity} /> */}
       </App>
     </Router>
   </Provider>,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -22,6 +22,7 @@ import AssignmentIcon from "@material-ui/icons/Assignment";
 import { DatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import * as actions from "../actions/activities";
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -85,14 +86,21 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1
+  },
+  input: {
+    color: "white"
   }
 }));
-function MenuAppBar({ auth, children, currentDate }) {
+function MenuAppBar({ auth, children, globalDate, updateGlobalDate }) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [selectedDate, handleDateChange] = useState(new Date());
+  // const [selectedDate, handleDateChange] = useState(new Date());
+  function handleDateChange(date) {
+    console.log(date);
 
+    updateGlobalDate(date);
+  }
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -108,9 +116,10 @@ function MenuAppBar({ auth, children, currentDate }) {
             <DatePicker
               views={["year", "month"]}
               openTo="month"
-              label="Year"
-              value={currentDate}
+              value={globalDate}
               onChange={handleDateChange}
+              autoOk
+              InputProps={{ className: classes.input }}
             />
           </MuiPickersUtilsProvider>
           <Button color="inherit" component={Link} to="/signout">
@@ -216,7 +225,7 @@ function MenuAppBar({ auth, children, currentDate }) {
 function mapStateToProps(state) {
   return {
     auth: state.auth.authenticated,
-    currentDate: state.activities.currentDate
+    globalDate: state.activities.globalDate
   };
 }
-export default connect(mapStateToProps)(MenuAppBar);
+export default connect(mapStateToProps, actions)(MenuAppBar);

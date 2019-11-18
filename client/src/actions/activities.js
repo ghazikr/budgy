@@ -5,7 +5,8 @@ import {
   ADD_ACTIVITY,
   ADD_ACTIVITY_ERROR,
   OPEN_ADD_ACTIVITY_DIALOG,
-  CLOSE_ADD_ACTIVITY_DIALOG
+  CLOSE_ADD_ACTIVITY_DIALOG,
+  UPDATE_GLOBAL_DATE
 } from "./types";
 
 export const getActivities = (auth, currentDate) => dispatch => {
@@ -79,4 +80,8 @@ export const openAddActivityDialog = () => ({
 });
 export const closeAddActivityDialog = () => ({
   type: CLOSE_ADD_ACTIVITY_DIALOG
+});
+export const updateGlobalDate = date => ({
+  type: UPDATE_GLOBAL_DATE,
+  payload: date
 });

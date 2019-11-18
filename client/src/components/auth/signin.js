@@ -50,9 +50,6 @@ export const renderTextField = ({
     margin="normal"
     required
     fullWidth
-    // id={id}
-    // name={email}
-    // autoComplete={autoComplete}
     autoFocus
     label={label}
     placeholder={label}

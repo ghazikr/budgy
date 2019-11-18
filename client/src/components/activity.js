@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
@@ -34,8 +33,8 @@ function Activity(props) {
   const classes = useStyles();
 
   useEffect(() => {
-    props.getActivities(props.auth, props.currentDate);
-  }, [props.currentDate]);
+    props.getActivities(props.auth, props.globalDate);
+  }, [props.globalDate]);
 
   function handleAddClick() {
     props.openAddActivityDialog();
@@ -54,7 +53,9 @@ function Activity(props) {
         {props.activities.map((activity, index) => (
           <ListItem key={index}>
             <ListItemAvatar>
-              <Avatar>{BASIC_CATEGORIES[activity.category]}</Avatar>
+              <Avatar>
+                {BASIC_CATEGORIES[activity.activityCategory.name]}
+              </Avatar>
             </ListItemAvatar>
             <ListItemText primary={activity.name} secondary={activity.date} />
             {activity.activityType === "expense"
@@ -79,7 +80,7 @@ function mapStateToProps(state) {
   return {
     activities: state.activities.data,
     auth: state.auth.authenticated,
-    currentDate: state.activities.currentDate
+    globalDate: state.activities.globalDate
   };
 }
 export default compose(

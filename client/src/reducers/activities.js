@@ -3,14 +3,15 @@ import {
   GET_ACTIVITIES_ERROR,
   OPEN_ADD_ACTIVITY_DIALOG,
   ADD_ACTIVITY,
-  CLOSE_ADD_ACTIVITY_DIALOG
+  CLOSE_ADD_ACTIVITY_DIALOG,
+  UPDATE_GLOBAL_DATE
 } from "../actions/types";
 
 const INTIAL_STATE = {
   data: [],
   errorMessage: "",
   isAddActivityDialogOpen: false,
-  currentDate: new Date()
+  globalDate: new Date()
 };
 export default function(state = INTIAL_STATE, action) {
   switch (action.type) {
@@ -34,6 +35,11 @@ export default function(state = INTIAL_STATE, action) {
       return {
         ...state,
         isAddActivityDialogOpen: false
+      };
+    case UPDATE_GLOBAL_DATE:
+      return {
+        ...state,
+        globalDate: action.payload
       };
 
     default:

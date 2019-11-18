@@ -22,6 +22,7 @@ exports.addActivity = function(req, res, next) {
 };
 const ObjectId = mongoose.Types.ObjectId;
 exports.getActivitiesByUser = function(req, res, next) {
+  console.log("***********", req.body);
   Activity.aggregate(
     [
       {
