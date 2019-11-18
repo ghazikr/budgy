@@ -8,7 +8,6 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import reducers from "./reducers";
 import reduxThunk from "redux-thunk";
-import Feature from "./components/feature";
 import Signout from "./components/auth/signout";
 import Signin from "./components/auth/signin";
 import Activity from "./components/activity";
@@ -26,7 +25,6 @@ ReactDOM.render(
       <App>
         <Route path="/" exact component={Welcome} />
         <Route path="/signup" component={Signup} />
-        <Route path="/feature" component={Feature} />
         <Route path="/signout" component={Signout} />
         <Route path="/signin" component={Signin} />
         <Route path="/activity" component={Activity} />

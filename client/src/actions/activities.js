@@ -8,14 +8,20 @@ import {
   CLOSE_ADD_ACTIVITY_DIALOG
 } from "./types";
 
-export const getActivities = auth => dispatch => {
+export const getActivities = (auth, currentDate) => dispatch => {
   const config = {
     headers: {
       authorization: auth
     }
   };
   axios
-    .post("http://localhost:5000/activity", {}, config)
+    .post(
+      "http://localhost:5000/activity",
+      {
+        currentDate
+      },
+      config
+    )
     .then(res => {
       dispatch({
         type: GET_ACTIVITIES,
@@ -31,7 +37,7 @@ export const getActivities = auth => dispatch => {
 };
 
 export const addActivity = (
-  { name, category, amount, date },
+  { name, category, amount, date, activityType },
   auth,
   callback
 ) => dispatch => {
@@ -40,7 +46,6 @@ export const addActivity = (
       authorization: auth
     }
   };
-  console.log(date);
 
   axios
     .post(
@@ -49,7 +54,8 @@ export const addActivity = (
         name,
         category,
         amount,
-        date
+        date,
+        activityType
       },
       config
     )

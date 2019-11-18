@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { reduxForm, Field } from "redux-form";
 import * as actions from "../../actions/index";
 import { compose } from "redux";
@@ -12,13 +12,9 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 
 function Signup(props) {
-  // useEffect(() => {
-  //   props.history.push("/feature");
-  // });
-
   function onSubmit(formProps) {
     props.signup(formProps, () => {
-      props.history.push("/feature");
+      props.history.push("/activity");
     });
   }
 

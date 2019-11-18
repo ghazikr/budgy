@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import clsx from "clsx";
 import Drawer from "@material-ui/core/Drawer";
@@ -18,9 +18,10 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
 import AssignmentIcon from "@material-ui/icons/Assignment";
+import { DatePicker } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -86,10 +87,11 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   }
 }));
-function MenuAppBar({ auth, children }) {
+function MenuAppBar({ auth, children, currentDate }) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [selectedDate, handleDateChange] = useState(new Date());
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -102,6 +104,15 @@ function MenuAppBar({ auth, children }) {
     if (auth)
       return (
         <div>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <DatePicker
+              views={["year", "month"]}
+              openTo="month"
+              label="Year"
+              value={currentDate}
+              onChange={handleDateChange}
+            />
+          </MuiPickersUtilsProvider>
           <Button color="inherit" component={Link} to="/signout">
             Logout
           </Button>
@@ -118,7 +129,7 @@ function MenuAppBar({ auth, children }) {
       </div>
     );
   }
-  console.log(auth);
+  const currentPath = useLocation().pathname;
 
   return (
     <div className={classes.root}>
@@ -175,14 +186,22 @@ function MenuAppBar({ auth, children }) {
           </div>
           <Divider />
           <List>
-            {["Activity"].map((text, index) => (
-              <ListItem button key={text} component={Link} to="/activity">
-                <ListItemIcon>
-                  <AssignmentIcon />
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
+            {[{ menuItemName: "Activity", path: "/activity" }].map(
+              (item, index) => (
+                <ListItem
+                  button
+                  key={item.menuItemName}
+                  component={Link}
+                  to={item.path}
+                  selected={item.path === currentPath}
+                >
+                  <ListItemIcon>
+                    <AssignmentIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={item.menuItemName} />
+                </ListItem>
+              )
+            )}
           </List>
         </Drawer>
       )}
@@ -196,7 +215,8 @@ function MenuAppBar({ auth, children }) {
 
 function mapStateToProps(state) {
   return {
-    auth: state.auth.authenticated
+    auth: state.auth.authenticated,
+    currentDate: state.activities.currentDate
   };
 }
 export default connect(mapStateToProps)(MenuAppBar);

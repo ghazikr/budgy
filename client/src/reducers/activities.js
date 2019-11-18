@@ -9,7 +9,8 @@ import {
 const INTIAL_STATE = {
   data: [],
   errorMessage: "",
-  isAddActivityDialogOpen: false
+  isAddActivityDialogOpen: false,
+  currentDate: new Date()
 };
 export default function(state = INTIAL_STATE, action) {
   switch (action.type) {

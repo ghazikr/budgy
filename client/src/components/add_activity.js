@@ -1,20 +1,22 @@
-import React, { Component } from "react";
+import React from "react";
 import { reduxForm, Field } from "redux-form";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
+import Select from "@material-ui/core/Select";
+import FormControl from "@material-ui/core/FormControl";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
 import DateFnsUtils from "@date-io/date-fns";
 import * as actions from "../actions/activities";
 import { useStyles, renderTextField } from "../components/auth/signin";
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker
 } from "@material-ui/pickers";
 
@@ -26,21 +28,52 @@ function AddActivity(props) {
     handleSubmit,
     closeAddActivityDialog
   } = props;
-  const onSubmit = formProps => {
-    console.log(formProps);
+  const classes = useStyles();
 
+  const renderFromHelper = ({ touched, error }) => {
+    if (!(touched && error)) {
+      return;
+    } else {
+      return <FormHelperText>{touched && error}</FormHelperText>;
+    }
+  };
+
+  const onSubmit = formProps => {
     props.addActivity(formProps, auth, () => {
-      props.getActivities(auth);
+      props.getActivities(auth, props.currentDate);
     });
   };
   function handleDialogState() {
     props.openAddActivityDialog();
   }
-
-  const handleDateChange = date => {
-    // setSelectedDate(date);
-  };
-
+  const renderSelectField = ({
+    input,
+    label,
+    meta: { touched, error },
+    children,
+    ...custom
+  }) => (
+    <FormControl
+      className={classes.formControl}
+      variant="outlined"
+      error={touched && error}
+      fullWidth
+    >
+      <InputLabel htmlFor="activity-type">Type</InputLabel>
+      <Select
+        native
+        {...input}
+        {...custom}
+        inputProps={{
+          name: "activityType",
+          id: "activity-type"
+        }}
+      >
+        {children}
+      </Select>
+      {renderFromHelper({ touched, error })}
+    </FormControl>
+  );
   const renderCustomDatePicker = ({
     label,
     input,
@@ -53,7 +86,7 @@ function AddActivity(props) {
       <KeyboardDatePicker
         disableToolbar
         variant="inline"
-        format="MM/dd/yyyy"
+        format="dd/MM/yyyy"
         margin="normal"
         id="date-picker-inline"
         label="Date"
@@ -67,7 +100,6 @@ function AddActivity(props) {
     </MuiPickersUtilsProvider>
   );
 
-  const classes = useStyles();
   return (
     <Dialog
       open={isAddActivityDialogOpen}
@@ -92,6 +124,15 @@ function AddActivity(props) {
           noValidate
           onSubmit={handleSubmit(onSubmit)}
         >
+          <Field
+            classes={classes}
+            name="activityType"
+            component={renderSelectField}
+            label="Activity Type"
+          >
+            <option value="expense">Expense</option>
+            <option value="income">Income</option>
+          </Field>
           <Field
             name="name"
             type="text"
@@ -123,9 +164,6 @@ function AddActivity(props) {
             component={renderTextField}
             autoComplete="none"
           />
-          <Button type="submit" color="primary">
-            Save
-          </Button>
           <div>{errorMessage}</div>
         </form>
       </DialogContent>
@@ -149,7 +187,8 @@ function AddActivity(props) {
 const mapStateToProps = state => ({
   errorMessage: state.auth.errorMessage,
   isAddActivityDialogOpen: state.activities.isAddActivityDialogOpen,
-  auth: state.auth.authenticated
+  auth: state.auth.authenticated,
+  currentDate: state.activities.currentDate
 });
 
 export default compose(

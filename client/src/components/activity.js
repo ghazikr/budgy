@@ -13,6 +13,8 @@ import { BASIC_CATEGORIES } from "../utils";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import AddActivity from "./add_activity";
+import { compose } from "redux";
+import requireAuth from "./requireAuth";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,8 +34,8 @@ function Activity(props) {
   const classes = useStyles();
 
   useEffect(() => {
-    props.getActivities(props.auth);
-  }, []);
+    props.getActivities(props.auth, props.currentDate);
+  }, [props.currentDate]);
 
   function handleAddClick() {
     props.openAddActivityDialog();
@@ -49,13 +51,15 @@ function Activity(props) {
           </ListSubheader>
         }
       >
-        {props.activities.map(activity => (
-          <ListItem>
+        {props.activities.map((activity, index) => (
+          <ListItem key={index}>
             <ListItemAvatar>
               <Avatar>{BASIC_CATEGORIES[activity.category]}</Avatar>
             </ListItemAvatar>
             <ListItemText primary={activity.name} secondary={activity.date} />
-            <span>{activity.amount}</span>
+            {activity.activityType === "expense"
+              ? `-${activity.amount}`
+              : activity.amount}
           </ListItem>
         ))}
       </List>
@@ -74,7 +78,11 @@ function Activity(props) {
 function mapStateToProps(state) {
   return {
     activities: state.activities.data,
-    auth: state.auth.authenticated
+    auth: state.auth.authenticated,
+    currentDate: state.activities.currentDate
   };
 }
-export default connect(mapStateToProps, actions)(Activity);
+export default compose(
+  connect(mapStateToProps, actions),
+  requireAuth
+)(Activity);

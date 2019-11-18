@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { reduxForm, Field } from "redux-form";
 import * as actions from "../../actions/index";
 import { compose } from "redux";
@@ -66,12 +66,10 @@ export const renderTextField = ({
 function Signin(props) {
   const { handleSubmit } = props;
   const classes = useStyles();
-  // useEffect(() => {
-  //   props.history.push("/feature");
-  // });
+
   const onSubmit = formProps => {
     props.signin(formProps, () => {
-      props.history.push("/feature");
+      props.history.push("/activity");
     });
   };
 

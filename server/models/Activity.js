@@ -5,7 +5,8 @@ const activitySchema = new Schema({
   category: String,
   amount: Number,
   date: Date,
-  user_id: String
+  activityType: String,
+  user_id: { type: Schema.Types.ObjectId, ref: "User" }
 });
 
-const ModelClass = mongoose.model("activity", activitySchema);
+mongoose.model("activity", activitySchema);
