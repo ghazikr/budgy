@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const Category = mongoose.model("category").schema;
+
 const activitySchema = new Schema({
   name: String,
-  category: { type: Schema.Types.ObjectId, ref: "category" },
+  category: Category,
   amount: Number,
   date: Date,
-  activityType: String,
-  user_id: { type: Schema.Types.ObjectId, ref: "users" }
+  activityType: String
 });
 
-const model = mongoose.model("activity", activitySchema);
-exports.model = model;
+mongoose.model("activity", activitySchema);

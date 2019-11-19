@@ -20,9 +20,9 @@ import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    // width: "100%",
+    width: "100%",
     // maxWidth: 360,
-    // backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.paper,
     position: "relative"
   },
   fab: {
@@ -82,9 +82,7 @@ function Activity(props) {
         {props.activities.map((activity, index) => (
           <ListItem key={index}>
             <ListItemAvatar>
-              <Avatar>
-                {BASIC_CATEGORIES[activity.activityCategory.name]}
-              </Avatar>
+              <Avatar>{BASIC_CATEGORIES[activity.category.name]}</Avatar>
             </ListItemAvatar>
             <ListItemText primary={activity.name} secondary={activity.date} />
             {activity.activityType === "expense"

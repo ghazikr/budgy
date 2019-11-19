@@ -1,16 +1,13 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const Activity = mongoose.model("activity").schema;
 const bcrypt = require("bcrypt-nodejs");
-// const userSchema = new Schema({
-//   googleId: String
-// });
-
-// mongoose.model("users", userSchema);
 
 //on save hook, encrypt password
 const userSchema = new Schema({
   email: { type: String, unique: true, lowercase: true },
-  password: String
+  password: String,
+  activities: [Activity]
 });
 
 userSchema.pre("save", function(next) {
@@ -32,4 +29,4 @@ userSchema.methods.comparePassword = function(candidatePassword, callback) {
   });
 };
 
-mongoose.model("users", userSchema);
+mongoose.model("user", userSchema);

@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const LocalStartegy = require("passport-local");
-const User = mongoose.model("users");
+const User = mongoose.model("user");
 
 // jwt strategy
 const jwtOptions = {

@@ -7,9 +7,9 @@ const moragn = require("morgan");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const keys = require("./config/keys");
-require("./models/User");
-require("./models/Activity");
 require("./models/Category");
+require("./models/Activity");
+require("./models/User");
 require("./services/passport");
 
 mongoose.connect(keys.mongoURI);

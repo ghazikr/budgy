@@ -39,8 +39,6 @@ function AddActivity(props) {
   };
 
   const onSubmit = formProps => {
-    console.log(formProps);
-
     props.addActivity(formProps, auth, () => {
       props.getActivities(auth, props.globalDate);
     });

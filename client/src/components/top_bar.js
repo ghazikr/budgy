@@ -69,7 +69,7 @@ const useStyles = makeStyles(theme => ({
     }),
     overflowX: "hidden",
     width: theme.spacing(7) + 1,
-    [theme.breakpoints.up("xs")]: {
+    [theme.breakpoints.up("sm")]: {
       width: theme.spacing(9) + 1
     }
   },
@@ -97,8 +97,6 @@ function MenuAppBar({ auth, children, globalDate, updateGlobalDate }) {
   const [open, setOpen] = React.useState(false);
   // const [selectedDate, handleDateChange] = useState(new Date());
   function handleDateChange(date) {
-    console.log(date);
-
     updateGlobalDate(date);
   }
   const handleDrawerOpen = () => {
