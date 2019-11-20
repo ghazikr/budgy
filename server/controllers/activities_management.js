@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const Category = mongoose.model("category");
 const User = mongoose.model("user");
 const Activity = mongoose.model("activity");
-const ObjectId = mongoose.Types.ObjectId;
 
 exports.addActivity = function(req, res, next) {
   const { name, category, amount, date, activityType } = req.body;
@@ -30,8 +29,16 @@ exports.addActivity = function(req, res, next) {
 exports.getActivitiesByUser = function(req, res, next) {
   User.findOne({ _id: req.user._id }, function(err, user) {
     if (err) next(err);
+    const { currentDate } = req.body;
+    const currentMonth = new Date(currentDate).getMonth();
+    const currentYear = new Date(currentDate).getFullYear();
+    const activities = user.activities.filter(
+      activity =>
+        new Date(activity.date).getMonth() === currentMonth &&
+        new Date(activity.date).getFullYear() === currentYear
+    );
     res.json({
-      activities: user.activities,
+      activities: activities,
       balance: user.balance
     });
   });

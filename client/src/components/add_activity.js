@@ -180,7 +180,7 @@ const mapStateToProps = state => {
     auth: state.auth.authenticated,
     globalDate: state.activities.globalDate,
     dialogTitle: state.activities.dialogTitle,
-    initialValues: state.activities.initialValues // pull initial values from account reducer
+    initialValues: state.activities.initialValues // pull initial values
   };
 };
 

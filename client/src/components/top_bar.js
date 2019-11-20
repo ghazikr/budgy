@@ -95,7 +95,6 @@ function MenuAppBar({ auth, children, globalDate, updateGlobalDate }) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  // const [selectedDate, handleDateChange] = useState(new Date());
   function handleDateChange(date) {
     updateGlobalDate(date);
   }
