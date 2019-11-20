@@ -30,7 +30,6 @@ exports.addActivity = function(req, res, next) {
 exports.getActivitiesByUser = function(req, res, next) {
   User.findOne({ _id: req.user._id }, function(err, user) {
     if (err) next(err);
-    console.log(user);
     res.json({
       activities: user.activities,
       balance: user.balance
@@ -49,4 +48,26 @@ exports.addCategory = function(req, res, next) {
     if (err) return next(err);
     res.json({ success: true });
   });
+};
+
+exports.updateActivity = function(req, res, next) {
+  const { name, category, amount, date, activityType, _id } = req.body;
+  if (!name || !category || !amount || !date || !activityType || !_id)
+    return res.status(422).send({ error: "you must provide all details" });
+  User.findOneAndUpdate(
+    { _id: req.user._id, "activities._id": req.body._id },
+    {
+      $set: {
+        "activities.$.name": name,
+        "activities.$.amount": amount,
+        "activities.$.date": date,
+        "activities.$.activityType": activityType
+        // "activities.$.category": name
+      }
+    },
+    err => {
+      if (err) return next(err);
+      res.json({ success: true });
+    }
+  );
 };

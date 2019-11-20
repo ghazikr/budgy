@@ -50,7 +50,7 @@ function Activity(props) {
   }
 
   function handleListItemClick(e, activity) {
-    console.log(activity);
+    props.updateSelected(activity);
   }
 
   return (

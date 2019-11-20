@@ -1,6 +1,5 @@
 import React from "react";
 import { reduxForm, Field } from "redux-form";
-import { compose } from "redux";
 import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -22,7 +21,7 @@ import {
 
 function AddActivity(props) {
   const {
-    isAddActivityDialogOpen,
+    isActivityDialogOpen,
     errorMessage,
     auth,
     handleSubmit,
@@ -39,7 +38,7 @@ function AddActivity(props) {
   };
 
   const onSubmit = formProps => {
-    props.addActivity(formProps, auth, () => {
+    props.actionOnActivity(props.dialogTitle, formProps, auth, () => {
       props.getActivities(auth, props.globalDate);
     });
   };
@@ -102,11 +101,11 @@ function AddActivity(props) {
 
   return (
     <Dialog
-      open={isAddActivityDialogOpen}
+      open={isActivityDialogOpen}
       onClose={handleDialogState}
       aria-labelledby="form-dialog-title"
     >
-      <DialogTitle id="form-dialog-title">Add an activity</DialogTitle>
+      <DialogTitle id="form-dialog-title">{`${props.dialogTitle} an activity`}</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Please add the details of your activity
@@ -174,20 +173,19 @@ function AddActivity(props) {
   );
 }
 
-const mapStateToProps = state => ({
-  errorMessage: state.auth.errorMessage,
-  isAddActivityDialogOpen: state.activities.isAddActivityDialogOpen,
-  auth: state.auth.authenticated,
-  globalDate: state.activities.globalDate
-});
+const mapStateToProps = state => {
+  return {
+    errorMessage: state.auth.errorMessage,
+    isActivityDialogOpen: state.activities.isActivityDialogOpen,
+    auth: state.auth.authenticated,
+    globalDate: state.activities.globalDate,
+    dialogTitle: state.activities.dialogTitle,
+    initialValues: state.activities.initialValues // pull initial values from account reducer
+  };
+};
 
-export default compose(
-  reduxForm({
-    form: "addActivity",
-    initialValues: {
-      activityType: "expense",
-      date: new Date()
-    }
-  }),
-  connect(mapStateToProps, actions)
-)(AddActivity);
+let InitializeFromStateForm = reduxForm({
+  form: "actionOnActivity",
+  enableReinitialize: true
+})(AddActivity);
+export default connect(mapStateToProps, actions)(InitializeFromStateForm);

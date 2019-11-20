@@ -6,4 +6,9 @@ module.exports = function(app) {
   app.post("/add_activity", requireAuth, ActivitiesManagement.addActivity);
   app.post("/activity", requireAuth, ActivitiesManagement.getActivitiesByUser);
   app.post("/add_category", requireAuth, ActivitiesManagement.addCategory);
+  app.post(
+    "/update_activity",
+    requireAuth,
+    ActivitiesManagement.updateActivity
+  );
 };

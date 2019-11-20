@@ -6,7 +6,8 @@ import {
   ADD_ACTIVITY_ERROR,
   OPEN_ADD_ACTIVITY_DIALOG,
   CLOSE_ADD_ACTIVITY_DIALOG,
-  UPDATE_GLOBAL_DATE
+  UPDATE_GLOBAL_DATE,
+  UPDATE_SELECTED
 } from "./types";
 
 export const getActivities = (auth, currentDate) => dispatch => {
@@ -37,8 +38,9 @@ export const getActivities = (auth, currentDate) => dispatch => {
     });
 };
 
-export const addActivity = (
-  { name, category, amount, date, activityType },
+export const actionOnActivity = (
+  DialogTitle,
+  { name, category, amount, date, activityType, _id },
   auth,
   callback
 ) => dispatch => {
@@ -50,13 +52,16 @@ export const addActivity = (
 
   axios
     .post(
-      "http://localhost:5000/add_activity",
+      `http://localhost:5000/${
+        DialogTitle === "Add" ? "add_activity" : "update_activity"
+      }`,
       {
         name,
         category,
         amount,
         date,
-        activityType
+        activityType,
+        _id
       },
       config
     )
@@ -84,4 +89,8 @@ export const closeAddActivityDialog = () => ({
 export const updateGlobalDate = date => ({
   type: UPDATE_GLOBAL_DATE,
   payload: date
+});
+export const updateSelected = activity => ({
+  type: UPDATE_SELECTED,
+  payload: activity
 });

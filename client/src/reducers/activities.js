@@ -4,17 +4,23 @@ import {
   OPEN_ADD_ACTIVITY_DIALOG,
   ADD_ACTIVITY,
   CLOSE_ADD_ACTIVITY_DIALOG,
-  UPDATE_GLOBAL_DATE
+  UPDATE_GLOBAL_DATE,
+  UPDATE_SELECTED
 } from "../actions/types";
 
 const INTIAL_STATE = {
   data: [],
-  errorMessage: "",
-  isAddActivityDialogOpen: false,
+  dialogTitle: "Add",
+  isActivityDialogOpen: false,
   globalDate: new Date(),
   incomeValue: 0,
   expensesValue: 0,
-  balance: 0
+  balance: 0,
+  initialValues: {
+    activityType: "expense",
+    date: new Date()
+  },
+  errorMessage: ""
 };
 function getTotalValue(activities, type) {
   const value = activities.reduce((total, { activityType, amount }) => {
@@ -44,18 +50,29 @@ export default function(state = INTIAL_STATE, action) {
     case OPEN_ADD_ACTIVITY_DIALOG:
       return {
         ...state,
-        isAddActivityDialogOpen: true
+        isActivityDialogOpen: true
       };
     case ADD_ACTIVITY:
     case CLOSE_ADD_ACTIVITY_DIALOG:
       return {
         ...state,
-        isAddActivityDialogOpen: false
+        isActivityDialogOpen: false
       };
     case UPDATE_GLOBAL_DATE:
       return {
         ...state,
         globalDate: action.payload
+      };
+    case UPDATE_SELECTED:
+      return {
+        ...state,
+        initialValues: {
+          ...state.initialValues,
+          ...action.payload,
+          category: action.payload.category.name
+        },
+        isActivityDialogOpen: true,
+        dialogTitle: "Modify"
       };
 
     default:
