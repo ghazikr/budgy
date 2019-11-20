@@ -30,7 +30,11 @@ exports.addActivity = function(req, res, next) {
 exports.getActivitiesByUser = function(req, res, next) {
   User.findOne({ _id: req.user._id }, function(err, user) {
     if (err) next(err);
-    res.json(user.activities);
+    console.log(user);
+    res.json({
+      activities: user.activities,
+      balance: user.balance
+    });
   });
 };
 

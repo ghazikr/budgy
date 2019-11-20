@@ -11,14 +11,30 @@ const INTIAL_STATE = {
   data: [],
   errorMessage: "",
   isAddActivityDialogOpen: false,
-  globalDate: new Date()
+  globalDate: new Date(),
+  incomeValue: 0,
+  expensesValue: 0,
+  balance: 0
 };
+function getTotalValue(activities, type) {
+  const value = activities.reduce((total, { activityType, amount }) => {
+    return activityType === type ? total + amount : total;
+  }, 0);
+  return value;
+}
 export default function(state = INTIAL_STATE, action) {
   switch (action.type) {
     case GET_ACTIVITIES:
+      const expenses = getTotalValue(action.payload.activities, "expense");
+      const income = getTotalValue(action.payload.activities, "income");
+      const balance = income - expenses;
+
       return {
         ...state,
-        data: action.payload
+        data: action.payload.activities,
+        income,
+        expenses,
+        balance
       };
     case GET_ACTIVITIES_ERROR:
       return {

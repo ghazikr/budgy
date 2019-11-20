@@ -49,28 +49,32 @@ function Activity(props) {
     props.openAddActivityDialog();
   }
 
+  function handleListItemClick(e, activity) {
+    console.log(activity);
+  }
+
   return (
     <>
-      {/* <Paper className={classes.paperRoot}>
+      <Paper className={classes.paperRoot}>
         <div>
           <Typography variant="h5" component="h3">
             Income
           </Typography>
-          <Typography component="p">bla bla</Typography>
+          <Typography component="p">{`${props.income}`}</Typography>
         </div>
         <div>
           <Typography variant="h5" component="h3">
             Expenses
           </Typography>
-          <Typography component="p">bla bla</Typography>
+          <Typography component="p">{`${props.expenses}`}</Typography>
         </div>
         <div>
           <Typography variant="h5" component="h3">
             Balance
           </Typography>
-          <Typography component="p">bla bla</Typography>
+          <Typography component="p">{`${props.balance}`}</Typography>
         </div>
-      </Paper> */}
+      </Paper>
       <List
         className={classes.root}
         subheader={
@@ -80,7 +84,11 @@ function Activity(props) {
         }
       >
         {props.activities.map((activity, index) => (
-          <ListItem key={index}>
+          <ListItem
+            key={index}
+            button
+            onClick={event => handleListItemClick(event, activity)}
+          >
             <ListItemAvatar>
               <Avatar>{BASIC_CATEGORIES[activity.category.name]}</Avatar>
             </ListItemAvatar>
@@ -107,7 +115,10 @@ function mapStateToProps(state) {
   return {
     activities: state.activities.data,
     auth: state.auth.authenticated,
-    globalDate: state.activities.globalDate
+    globalDate: state.activities.globalDate,
+    income: state.activities.income,
+    expenses: state.activities.expenses,
+    balance: state.activities.balance
   };
 }
 export default compose(
