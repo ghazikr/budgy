@@ -33,7 +33,7 @@ export const signin = ({ email, password }, callback) => dispatch => {
     .then(res => {
       dispatch({
         type: AUTH_USER,
-        payload: res.data.token
+        payload: res.data
       });
       localStorage.setItem("token", res.data.token);
       callback();

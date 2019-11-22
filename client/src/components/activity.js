@@ -16,6 +16,7 @@ import AddIcon from "@material-ui/icons/Add";
 import AddActivity from "./add_activity";
 import { compose } from "redux";
 import requireAuth from "./requireAuth";
+import Icon from "@material-ui/core/Icon";
 import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles(theme => ({
@@ -40,6 +41,9 @@ const useStyles = makeStyles(theme => ({
 
 function Activity(props) {
   const classes = useStyles();
+  useEffect(() => {
+    props.getCategories(props.auth);
+  });
 
   useEffect(() => {
     props.getActivities(props.auth, props.globalDate);
@@ -90,7 +94,9 @@ function Activity(props) {
             onClick={event => handleListItemClick(event, activity)}
           >
             <ListItemAvatar>
-              <Avatar>{BASIC_CATEGORIES[activity.category.name]}</Avatar>
+              <Avatar>
+                <Icon>{activity.category.iconName}</Icon>
+              </Avatar>
             </ListItemAvatar>
             <ListItemText primary={activity.name} secondary={activity.date} />
             {activity.activityType === "expense"

@@ -11,12 +11,14 @@ import reduxThunk from "redux-thunk";
 import Signout from "./components/auth/signout";
 import Signin from "./components/auth/signin";
 import Activity from "./components/activity";
+import { composeWithDevTools } from "redux-devtools-extension";
 const store = createStore(
   reducers,
-  {
-    auth: { authenticated: localStorage.getItem("token") }
-  },
-  applyMiddleware(reduxThunk)
+  {},
+  // {
+  //   auth: { authenticated: localStorage.getItem("token") }
+  // },
+  composeWithDevTools(applyMiddleware(reduxThunk))
 );
 
 ReactDOM.render(

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
@@ -59,15 +59,15 @@ function AddActivity(props) {
         error={touched && error}
         fullWidth
       >
-        <InputLabel htmlFor="activity-type">Type</InputLabel>
+        <InputLabel htmlFor="activity-type">{label}</InputLabel>
         <Select
           native
           {...input}
           {...custom}
-          inputProps={{
-            name: "activityType",
-            id: "activity-type"
-          }}
+          // inputProps={{
+          //   name: "activityType",
+          //   id: "activity-type"
+          // }}
         >
           {children}
         </Select>
@@ -98,7 +98,6 @@ function AddActivity(props) {
       />
     </MuiPickersUtilsProvider>
   );
-
   return (
     <Dialog
       open={isActivityDialogOpen}
@@ -130,13 +129,18 @@ function AddActivity(props) {
             component={renderTextField}
             autoComplete="none"
           />
+
           <Field
             name="category"
-            type="text"
-            placeholder="Category"
-            component={renderTextField}
-            autoComplete="none"
-          />
+            component={renderSelectField}
+            label="Category Type"
+          >
+            {props.categories.map(category => (
+              <option key={category.iconName} value={category.iconName}>
+                {category.name}
+              </option>
+            ))}
+          </Field>
 
           <Field
             id="date"
@@ -180,7 +184,8 @@ const mapStateToProps = state => {
     auth: state.auth.authenticated,
     globalDate: state.activities.globalDate,
     dialogTitle: state.activities.dialogTitle,
-    initialValues: state.activities.initialValues // pull initial values
+    initialValues: state.activities.initialValues, // pull initial values
+    categories: state.auth.userCategories
   };
 };
 

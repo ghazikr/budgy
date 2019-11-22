@@ -4,7 +4,24 @@ import FastfoodIcon from "@material-ui/icons/Fastfood";
 import LocalPhoneIcon from "@material-ui/icons/LocalPhone";
 import ApartmentIcon from "@material-ui/icons/Apartment";
 export const BASIC_CATEGORIES = {
-  food: <FastfoodIcon />,
-  phone: <LocalPhoneIcon />,
-  tv: <ApartmentIcon />
+  expenses: [
+    { food: "fast_food" },
+    { phone: "local_phone" },
+    { bills: "receipt" },
+    { transportation: "commute" },
+    { home: "home_work" },
+    { entertainment: "sports_esports" },
+    { telephone: "phone" },
+    { sport: "fitness_center" },
+    { travel: "flight_takeoff" },
+    { smoking: "smoking_rooms" }
+  ],
+  income: [
+    {
+      salary: "account_balance_account",
+      dividends: "trending_up",
+      monetization_on_icon: "lottery",
+      others: "category"
+    }
+  ]
 };

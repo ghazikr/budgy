@@ -18,7 +18,8 @@ const INTIAL_STATE = {
   balance: 0,
   initialValues: {
     activityType: "expense",
-    date: new Date()
+    date: new Date(),
+    category: "fitness_center"
   },
   errorMessage: ""
 };
@@ -47,6 +48,7 @@ export default function(state = INTIAL_STATE, action) {
         ...state,
         errorMessage: action.payload
       };
+
     case OPEN_ADD_ACTIVITY_DIALOG:
       return {
         ...state,

@@ -7,7 +7,9 @@ import {
   OPEN_ADD_ACTIVITY_DIALOG,
   CLOSE_ADD_ACTIVITY_DIALOG,
   UPDATE_GLOBAL_DATE,
-  UPDATE_SELECTED
+  UPDATE_SELECTED,
+  GET_CATEGORIES,
+  GET_CATEGORIES_ERROR
 } from "./types";
 
 export const getActivities = (auth, currentDate) => dispatch => {
@@ -33,6 +35,27 @@ export const getActivities = (auth, currentDate) => dispatch => {
     .catch(e => {
       dispatch({
         type: GET_ACTIVITIES_ERROR,
+        payload: "error retrieving data"
+      });
+    });
+};
+export const getCategories = auth => dispatch => {
+  const config = {
+    headers: {
+      authorization: auth
+    }
+  };
+  axios
+    .get("http://localhost:5000/user_categories", config)
+    .then(res => {
+      dispatch({
+        type: GET_CATEGORIES,
+        payload: res.data.userCategories
+      });
+    })
+    .catch(e => {
+      dispatch({
+        type: GET_CATEGORIES_ERROR,
         payload: "error retrieving data"
       });
     });

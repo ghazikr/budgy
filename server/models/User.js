@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const Activity = mongoose.model("activity").schema;
+const Category = mongoose.model("category").schema;
 const bcrypt = require("bcrypt-nodejs");
 
 //on save hook, encrypt password
@@ -8,7 +9,8 @@ const userSchema = new Schema({
   email: { type: String, unique: true, lowercase: true },
   password: String,
   balance: { type: Number, default: 0 },
-  activities: [Activity]
+  activities: [Activity],
+  categories: [Category]
 });
 
 userSchema.pre("save", function(next) {
