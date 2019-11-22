@@ -21,6 +21,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import { DatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import * as actions from "../actions/activities";
 const drawerWidth = 240;
@@ -192,22 +194,34 @@ function MenuAppBar({ auth, children, globalDate, updateGlobalDate }) {
           </div>
           <Divider />
           <List>
-            {[{ menuItemName: "Activity", path: "/activity" }].map(
-              (item, index) => (
-                <ListItem
-                  button
-                  key={item.menuItemName}
-                  component={Link}
-                  to={item.path}
-                  selected={item.path === currentPath}
-                >
-                  <ListItemIcon>
-                    <AssignmentIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={item.menuItemName} />
-                </ListItem>
-              )
-            )}
+            {[
+              {
+                menuItemName: "Activity",
+                path: "/activity",
+                icon: <AssignmentIcon />
+              },
+              {
+                menuItemName: "Dashboard",
+                path: "/dashboard",
+                icon: <DashboardIcon />
+              },
+              {
+                menuItemName: "Logout",
+                path: "/signout",
+                icon: <MeetingRoomIcon />
+              }
+            ].map((item, index) => (
+              <ListItem
+                button
+                key={item.menuItemName}
+                component={Link}
+                to={item.path}
+                selected={item.path === currentPath}
+              >
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.menuItemName} />
+              </ListItem>
+            ))}
           </List>
         </Drawer>
       )}

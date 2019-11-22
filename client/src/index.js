@@ -11,6 +11,7 @@ import reduxThunk from "redux-thunk";
 import Signout from "./components/auth/signout";
 import Signin from "./components/auth/signin";
 import Activity from "./components/activity";
+import Dashboard from "./components/dashboard";
 import { composeWithDevTools } from "redux-devtools-extension";
 const store = createStore(
   reducers,
@@ -30,7 +31,7 @@ ReactDOM.render(
         <Route path="/signout" component={Signout} />
         <Route path="/signin" component={Signin} />
         <Route path="/activity" component={Activity} />
-        {/* <Route path="/categories" component={Activity} /> */}
+        <Route path="/dashboard" component={Dashboard} />
       </App>
     </Router>
   </Provider>,

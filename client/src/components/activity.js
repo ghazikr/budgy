@@ -35,7 +35,8 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3, 2),
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-around"
+    justifyContent: "space-around",
+    marginBottom: 5
   }
 }));
 
@@ -79,40 +80,42 @@ function Activity(props) {
           <Typography component="p">{`${props.balance}`}</Typography>
         </div>
       </Paper>
-      <List
-        className={classes.root}
-        subheader={
-          <ListSubheader component="div" id="recent-activity">
-            Recent Activity
-          </ListSubheader>
-        }
-      >
-        {props.activities.map((activity, index) => (
-          <ListItem
-            key={index}
-            button
-            onClick={event => handleListItemClick(event, activity)}
-          >
-            <ListItemAvatar>
-              <Avatar>
-                <Icon>{activity.category.iconName}</Icon>
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={activity.name} secondary={activity.date} />
-            {activity.activityType === "expense"
-              ? `-${activity.amount}`
-              : activity.amount}
-          </ListItem>
-        ))}
-      </List>
-      <Fab
-        color="primary"
-        aria-label="add"
-        className={classes.fab}
-        onClick={handleAddClick}
-      >
-        <AddIcon />
-      </Fab>
+      <Paper className={classes.paperRoot}>
+        <List
+          className={classes.root}
+          subheader={
+            <ListSubheader component="div" id="recent-activity">
+              Recent Activity
+            </ListSubheader>
+          }
+        >
+          {props.activities.map((activity, index) => (
+            <ListItem
+              key={index}
+              button
+              onClick={event => handleListItemClick(event, activity)}
+            >
+              <ListItemAvatar>
+                <Avatar>
+                  <Icon>{activity.category.iconName}</Icon>
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={activity.name} secondary={activity.date} />
+              {activity.activityType === "expense"
+                ? `-${activity.amount}`
+                : activity.amount}
+            </ListItem>
+          ))}
+        </List>
+        <Fab
+          color="primary"
+          aria-label="add"
+          className={classes.fab}
+          onClick={handleAddClick}
+        >
+          <AddIcon />
+        </Fab>
+      </Paper>
       <AddActivity />
     </>
   );
