@@ -9,16 +9,14 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import * as actions from "../actions/activities";
-import { BASIC_CATEGORIES } from "../utils";
+import * as actions from "../../actions/activities";
+import { BASIC_CATEGORIES } from "../../utils";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import AddActivity from "./add_activity";
 import { compose } from "redux";
-import requireAuth from "./requireAuth";
+import requireAuth from "../requireAuth";
 import Icon from "@material-ui/core/Icon";
-import Divider from "@material-ui/core/Divider";
-
+import AddCategoryForm from "./add_category_form";
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
@@ -40,20 +38,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Activity(props) {
+function Categories(props) {
   const classes = useStyles();
-  console.log(props.auth);
-
   useEffect(() => {
     props.getCategories(props.auth);
-  });
-
-  useEffect(() => {
-    props.getActivities(props.auth, props.globalDate);
-  }, [props.globalDate]);
+  }, []);
 
   function handleAddClick() {
-    props.openAddActivityDialog();
+    props.openAddCategoryDialog();
   }
 
   function handleListItemClick(e, activity) {
@@ -63,26 +55,6 @@ function Activity(props) {
   return (
     <>
       <Paper className={classes.paperRoot}>
-        <div>
-          <Typography variant="h5" component="h3">
-            Income
-          </Typography>
-          <Typography component="p">{`${props.income}`}</Typography>
-        </div>
-        <div>
-          <Typography variant="h5" component="h3">
-            Expenses
-          </Typography>
-          <Typography component="p">{`${props.expenses}`}</Typography>
-        </div>
-        <div>
-          <Typography variant="h5" component="h3">
-            Balance
-          </Typography>
-          <Typography component="p">{`${props.balance}`}</Typography>
-        </div>
-      </Paper>
-      <Paper className={classes.paperRoot}>
         <List
           className={classes.root}
           subheader={
@@ -91,21 +63,18 @@ function Activity(props) {
             </ListSubheader>
           }
         >
-          {props.activities.map((activity, index) => (
+          {props.categories.map((category, index) => (
             <ListItem
               key={index}
               button
-              onClick={event => handleListItemClick(event, activity)}
+              //   onClick={event => handleListItemClick(event, activity)}
             >
               <ListItemAvatar>
                 <Avatar>
-                  <Icon>{activity.category.iconName}</Icon>
+                  <Icon>{category.iconName}</Icon>
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={activity.name} secondary={activity.date} />
-              {activity.activityType === "expense"
-                ? `-${activity.amount}`
-                : activity.amount}
+              <ListItemText primary={category.name} secondary={category.type} />
             </ListItem>
           ))}
         </List>
@@ -118,21 +87,18 @@ function Activity(props) {
           <AddIcon />
         </Fab>
       </Paper>
-      <AddActivity />
+      <AddCategoryForm />
     </>
   );
 }
 function mapStateToProps(state) {
   return {
-    activities: state.activities.data,
+    categories: state.auth.userCategories,
     auth: state.auth.authenticated,
-    globalDate: state.activities.globalDate,
-    income: state.activities.income,
-    expenses: state.activities.expenses,
-    balance: state.activities.balance
+    globalDate: state.activities.globalDate
   };
 }
 export default compose(
   connect(mapStateToProps, actions),
   requireAuth
-)(Activity);
+)(Categories);

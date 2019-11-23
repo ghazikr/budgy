@@ -23,6 +23,7 @@ import { DatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
+import CategoryIcon from "@material-ui/icons/Category";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import * as actions from "../actions/activities";
 const drawerWidth = 240;
@@ -110,21 +111,16 @@ function MenuAppBar({ auth, children, globalDate, updateGlobalDate }) {
   function renderLinks() {
     if (auth)
       return (
-        <div>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <DatePicker
-              views={["year", "month"]}
-              openTo="month"
-              value={globalDate}
-              onChange={handleDateChange}
-              autoOk
-              InputProps={{ className: classes.input }}
-            />
-          </MuiPickersUtilsProvider>
-          <Button color="inherit" component={Link} to="/signout">
-            Logout
-          </Button>
-        </div>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <DatePicker
+            views={["year", "month"]}
+            openTo="month"
+            value={globalDate}
+            onChange={handleDateChange}
+            autoOk
+            InputProps={{ className: classes.input }}
+          />
+        </MuiPickersUtilsProvider>
       );
     return (
       <div>
@@ -204,6 +200,11 @@ function MenuAppBar({ auth, children, globalDate, updateGlobalDate }) {
                 menuItemName: "Dashboard",
                 path: "/dashboard",
                 icon: <DashboardIcon />
+              },
+              {
+                menuItemName: "Categories",
+                path: "/categories",
+                icon: <CategoryIcon />
               },
               {
                 menuItemName: "Logout",

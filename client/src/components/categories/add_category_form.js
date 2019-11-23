@@ -11,22 +11,12 @@ import FormControl from "@material-ui/core/FormControl";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import DateFnsUtils from "@date-io/date-fns";
-import * as actions from "../actions/activities";
-import { useStyles, renderTextField } from "../components/auth/signin";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker
-} from "@material-ui/pickers";
+import * as actions from "../../actions/activities";
+import { useStyles, renderTextField } from "../../components/auth/signin";
+import { compose } from "@material-ui/system";
 
-function AddActivity(props) {
-  const {
-    isActivityDialogOpen,
-    errorMessage,
-    auth,
-    handleSubmit,
-    closeAddActivityDialog
-  } = props;
+function AddCategory(props) {
+  const { auth, handleSubmit } = props;
   const classes = useStyles();
 
   const renderFromHelper = ({ touched, error }) => {
@@ -38,12 +28,12 @@ function AddActivity(props) {
   };
 
   const onSubmit = formProps => {
-    props.actionOnActivity(props.dialogTitle, formProps, auth, () => {
-      props.getActivities(auth, props.globalDate);
+    props.addCategory(formProps, auth, () => {
+      props.getCategories(auth);
     });
   };
   function handleDialogState() {
-    props.openAddActivityDialog();
+    props.openAddCategoryDialog();
   }
   const renderSelectField = ({
     input,
@@ -75,49 +65,28 @@ function AddActivity(props) {
       </FormControl>
     );
   };
-  const renderCustomDatePicker = ({
-    label,
-    input,
-    id,
-    value,
-    meta: { touched, invalid, error },
-    ...custom
-  }) => (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <KeyboardDatePicker
-        variant="inline"
-        format="dd/MM/yyyy"
-        margin="normal"
-        id="date-picker-inline"
-        label="Date"
-        autoOk
-        fullWidth
-        inputVariant="outlined"
-        {...input}
-        {...custom}
-      />
-    </MuiPickersUtilsProvider>
-  );
+  console.log(props);
+
   return (
     <Dialog
-      open={isActivityDialogOpen}
+      open={props.isCategoryDialogOpen}
       onClose={handleDialogState}
       aria-labelledby="form-dialog-title"
     >
-      <DialogTitle id="form-dialog-title">{`${props.dialogTitle} an activity`}</DialogTitle>
+      <DialogTitle id="form-dialog-title">Add a category</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Please add the details of your activity
+          Please add the details of your category
         </DialogContentText>
         <form
           className={classes.form}
           noValidate
-          onSubmit={handleSubmit(onSubmit)}
+          //   onSubmit={handleSubmit(onSubmit)}
         >
           <Field
-            name="activityType"
+            name="type"
             component={renderSelectField}
-            label="Activity Type"
+            label="Category Type"
           >
             <option value="expense">Expense</option>
             <option value="income">Income</option>
@@ -129,39 +98,17 @@ function AddActivity(props) {
             component={renderTextField}
             autoComplete="none"
           />
-
           <Field
-            name="category"
-            component={renderSelectField}
-            label="Category Type"
-          >
-            {props.categories.map(category => (
-              <option key={category.iconName} value={category.iconName}>
-                {category.name}
-              </option>
-            ))}
-          </Field>
-
-          <Field
-            id="date"
-            name="date"
-            placeholder="Date"
-            component={renderCustomDatePicker}
-          />
-
-          <Field
-            id="amount"
-            name="amount"
-            type="number"
-            placeholder="Amount"
+            name="iconName"
+            type="text"
+            placeholder="Icon Name"
             component={renderTextField}
             autoComplete="none"
           />
-          <div>{errorMessage}</div>
         </form>
       </DialogContent>
       <DialogActions>
-        <Button onClick={closeAddActivityDialog} color="primary">
+        <Button onClick={props.closeAddCategoryDialog} color="primary">
           Cancel
         </Button>
         <Button
@@ -179,17 +126,19 @@ function AddActivity(props) {
 
 const mapStateToProps = state => {
   return {
-    isActivityDialogOpen: state.activities.isActivityDialogOpen,
+    errorMessage: state.auth.errorMessage,
+    isCategoryDialogOpen: state.activities.isCategoryDialogOpen,
     auth: state.auth.authenticated,
-    globalDate: state.activities.globalDate,
-    dialogTitle: state.activities.dialogTitle,
-    initialValues: state.activities.initialValues, // pull initial values
     categories: state.auth.userCategories
   };
 };
 
-let InitializeFromStateForm = reduxForm({
-  form: "actionOnActivity",
-  enableReinitialize: true
-})(AddActivity);
-export default connect(mapStateToProps, actions)(InitializeFromStateForm);
+export default connect(
+  mapStateToProps,
+  actions
+)(
+  reduxForm({
+    form: "addCategory",
+    initialValues: { type: "expense" }
+  })(AddCategory)
+);

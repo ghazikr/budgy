@@ -5,7 +5,11 @@ import {
   ADD_ACTIVITY,
   CLOSE_ADD_ACTIVITY_DIALOG,
   UPDATE_GLOBAL_DATE,
-  UPDATE_SELECTED
+  UPDATE_SELECTED,
+  OPEN_ADD_CATEGORY_DIALOG,
+  ADD_CATEGORY_ERROR,
+  ADD_CATEGORY,
+  CLOSE_ADD_CATEGORY_DIALOG
 } from "../actions/types";
 
 const INTIAL_STATE = {
@@ -21,7 +25,8 @@ const INTIAL_STATE = {
     date: new Date(),
     category: "fitness_center"
   },
-  errorMessage: ""
+  errorMessage: "",
+  isCategoryDialogOpen: false
 };
 function getTotalValue(activities, type) {
   const value = activities.reduce((total, { activityType, amount }) => {
@@ -54,11 +59,22 @@ export default function(state = INTIAL_STATE, action) {
         ...state,
         isActivityDialogOpen: true
       };
+    case OPEN_ADD_CATEGORY_DIALOG:
+      return {
+        ...state,
+        isCategoryDialogOpen: true
+      };
     case ADD_ACTIVITY:
     case CLOSE_ADD_ACTIVITY_DIALOG:
       return {
         ...state,
         isActivityDialogOpen: false
+      };
+    case ADD_CATEGORY:
+    case CLOSE_ADD_CATEGORY_DIALOG:
+      return {
+        ...state,
+        isCategoryDialogOpen: false
       };
     case UPDATE_GLOBAL_DATE:
       return {

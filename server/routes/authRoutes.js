@@ -11,21 +11,5 @@ module.exports = function(app) {
   app.post("/signup", Authentification.signup);
   app.post("/signin", requireSignIn, Authentification.signin);
   app.get("/user_categories", requireAuth, Authentification.getCatgoriesByUser);
+  app.post("/add_category", requireAuth, Authentification.addCatgory);
 };
-
-// module.exports = app => {
-//   app.get(
-//     "/auth/google",
-//     passport.authenticate("google", { scope: ["profile", "email"] })
-//   );
-
-//   app.get("/auth/google/callback", passport.authenticate("google"));
-
-//   app.get("/api/current_user", (req, res) => {
-//     res.send(req.user);
-//   });
-//   app.get("/api/logout", (req, res) => {
-//     req.logout();
-//     res.send(req.user);
-//   });
-// };

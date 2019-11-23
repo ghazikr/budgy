@@ -31,6 +31,6 @@ app.use(cors());
 require("./routes/authRoutes")(app);
 require("./routes/activitiesRoutes")(app);
 const port = process.env.PORT || 5000;
-const server = http.createServer(app);
+// const server = http.createServer(app);
 app.listen(port);
 console.log("listening ....");

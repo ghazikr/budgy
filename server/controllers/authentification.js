@@ -68,3 +68,30 @@ exports.getCatgoriesByUser = function(req, res, next) {
     });
   });
 };
+exports.addCatgory = function(req, res, next) {
+  const { name, iconName, type } = req.body;
+  console.log(req.body);
+
+  if (!name || !iconName || !type)
+    return res.status(422).send({ error: "you must provide all details" });
+  User.findOne({ _id: req.user._id }, function(err, user) {
+    if (err) next(err);
+    const isCategoryExists = user.categories.find(
+      category => category.name === name
+    );
+    console.log(isCategoryExists);
+
+    if (isCategoryExists) {
+      return res.status(422).send({ error: "Category in use" });
+    }
+    const newCategory = new Category({ name, iconName, type });
+    User.update(
+      { _id: req.user._id },
+      { $push: { categories: newCategory } },
+      err => {
+        if (err) return next(err);
+        res.json({ success: true });
+      }
+    );
+  });
+};
