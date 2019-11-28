@@ -10,7 +10,7 @@ import reducers from "./reducers";
 import reduxThunk from "redux-thunk";
 import Signout from "./components/auth/signout";
 import Signin from "./components/auth/signin";
-import Activity from "./components/activity";
+import Activity from "./components/activities";
 import Dashboard from "./components/dashboard";
 import Categories from "./components/categories";
 import { composeWithDevTools } from "redux-devtools-extension";

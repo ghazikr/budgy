@@ -9,15 +9,14 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import * as actions from "../actions/activities";
-import { BASIC_CATEGORIES } from "../utils";
+import * as actions from "../../actions/activities";
+import { BASIC_CATEGORIES } from "../../utils";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import AddActivity from "./add_activity";
 import { compose } from "redux";
-import requireAuth from "./requireAuth";
+import requireAuth from "../hoc/requireAuth";
 import Icon from "@material-ui/core/Icon";
-import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -41,16 +40,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Activity(props) {
-  console.log(props.auth);
-
   const classes = useStyles();
+  const { auth, globalDate, activities } = props;
   useEffect(() => {
-    props.getCategories(props.auth);
+    props.getCategories(auth);
   });
 
   useEffect(() => {
-    props.getActivities(props.auth, props.globalDate);
-  }, [props.globalDate]);
+    props.getActivities(auth, globalDate);
+  }, [globalDate]);
 
   function handleAddClick() {
     props.openAddActivityDialog();
@@ -91,7 +89,7 @@ function Activity(props) {
             </ListSubheader>
           }
         >
-          {props.activities.map((activity, index) => (
+          {activities.map((activity, index) => (
             <ListItem
               key={index}
               button

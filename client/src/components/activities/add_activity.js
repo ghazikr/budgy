@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
@@ -12,8 +12,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import DateFnsUtils from "@date-io/date-fns";
-import * as actions from "../actions/activities";
-import { useStyles, renderTextField } from "../components/auth/signin";
+import * as actions from "../../actions/activities";
+import { useStyles, renderTextField } from "../auth/signin";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker

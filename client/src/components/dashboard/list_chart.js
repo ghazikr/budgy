@@ -10,7 +10,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Paper from "@material-ui/core/Paper";
 import * as actions from "../../actions/activities";
 import { compose } from "redux";
-import requireAuth from "../requireAuth";
+import requireAuth from "../hoc/requireAuth";
 import Icon from "@material-ui/core/Icon";
 
 const useStyles = makeStyles(theme => ({
@@ -38,13 +38,10 @@ const useStyles = makeStyles(theme => ({
 
 function Activity(props) {
   const classes = useStyles();
+  const { auth, globalDate, activities } = props;
   useEffect(() => {
-    props.getActivities(props.auth, props.globalDate);
-  }, [props.globalDate]);
-
-  function handleAddClick() {
-    props.openAddActivityDialog();
-  }
+    props.getActivities(auth, globalDate);
+  }, [globalDate]);
 
   function handleListItemClick(e, activity) {
     props.updateSelected(activity);
@@ -60,7 +57,7 @@ function Activity(props) {
           </ListSubheader>
         }
       >
-        {props.activities.map((activity, index) => (
+        {activities.map((activity, index) => (
           <ListItem
             key={index}
             button

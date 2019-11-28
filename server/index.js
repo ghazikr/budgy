@@ -30,6 +30,7 @@ app.use(passport.session());
 app.use(cors());
 require("./routes/authRoutes")(app);
 require("./routes/activitiesRoutes")(app);
+require("./routes/categoriesRoutes")(app);
 const port = process.env.PORT || 5000;
 // const server = http.createServer(app);
 app.listen(port);

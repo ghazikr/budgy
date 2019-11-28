@@ -9,13 +9,12 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Avatar from "@material-ui/core/Avatar";
 import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
 import * as actions from "../../actions/activities";
 import { BASIC_CATEGORIES } from "../../utils";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import { compose } from "redux";
-import requireAuth from "../requireAuth";
+import requireAuth from "../hoc/requireAuth";
 import Icon from "@material-ui/core/Icon";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
@@ -44,17 +43,18 @@ const useStyles = makeStyles(theme => ({
 
 function Categories(props) {
   const classes = useStyles();
+  const { auth, categories } = props;
   useEffect(() => {
-    props.getCategories(props.auth);
-  }, []);
+    props.getCategories(auth);
+  });
 
   function handleAddClick() {
     props.openAddCategoryDialog();
   }
 
   const handleDeleteCategory = name => e => {
-    props.deleteCategory(name, props.auth, () => {
-      props.getCategories(props.auth);
+    props.deleteCategory(name, auth, () => {
+      props.getCategories(auth);
     });
   };
 
@@ -69,12 +69,8 @@ function Categories(props) {
             </ListSubheader>
           }
         >
-          {props.categories.map((category, index) => (
-            <ListItem
-              key={index}
-              button
-              //   onClick={event => handleListItemClick(event, activity)}
-            >
+          {categories.map((category, index) => (
+            <ListItem key={index}>
               <ListItemAvatar>
                 <Avatar>
                   <Icon>{category.iconName}</Icon>
@@ -82,8 +78,12 @@ function Categories(props) {
               </ListItemAvatar>
               <ListItemText primary={category.name} secondary={category.type} />
               <ListItemSecondaryAction>
-                <IconButton edge="end" aria-label="delete">
-                  <DeleteIcon onClick={handleDeleteCategory(category.name)} />
+                <IconButton
+                  edge="end"
+                  aria-label="delete"
+                  onClick={handleDeleteCategory(category.name)}
+                >
+                  <DeleteIcon />
                 </IconButton>
               </ListItemSecondaryAction>
             </ListItem>
@@ -105,8 +105,7 @@ function Categories(props) {
 function mapStateToProps(state) {
   return {
     categories: state.auth.userCategories,
-    auth: state.auth.authenticated,
-    globalDate: state.activities.globalDate
+    auth: state.auth.authenticated
   };
 }
 export default compose(

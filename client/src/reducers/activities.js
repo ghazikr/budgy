@@ -49,6 +49,7 @@ export default function(state = INTIAL_STATE, action) {
         balance
       };
     case GET_ACTIVITIES_ERROR:
+    case ADD_CATEGORY_ERROR:
       return {
         ...state,
         errorMessage: action.payload
