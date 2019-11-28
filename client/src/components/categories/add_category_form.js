@@ -65,7 +65,6 @@ function AddCategory(props) {
       </FormControl>
     );
   };
-  console.log(props);
 
   return (
     <Dialog

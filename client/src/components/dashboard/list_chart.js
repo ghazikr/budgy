@@ -38,12 +38,6 @@ const useStyles = makeStyles(theme => ({
 
 function Activity(props) {
   const classes = useStyles();
-  console.log(props.activities);
-
-  //   useEffect(() => {
-  //     props.getCategories(props.auth);
-  //   });
-
   useEffect(() => {
     props.getActivities(props.auth, props.globalDate);
   }, [props.globalDate]);

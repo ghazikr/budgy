@@ -41,9 +41,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Activity(props) {
-  const classes = useStyles();
   console.log(props.auth);
 
+  const classes = useStyles();
   useEffect(() => {
     props.getCategories(props.auth);
   });

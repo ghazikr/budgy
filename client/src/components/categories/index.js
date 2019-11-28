@@ -6,6 +6,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Avatar from "@material-ui/core/Avatar";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -16,6 +17,9 @@ import AddIcon from "@material-ui/icons/Add";
 import { compose } from "redux";
 import requireAuth from "../requireAuth";
 import Icon from "@material-ui/core/Icon";
+import DeleteIcon from "@material-ui/icons/Delete";
+import IconButton from "@material-ui/core/IconButton";
+
 import AddCategoryForm from "./add_category_form";
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,9 +52,11 @@ function Categories(props) {
     props.openAddCategoryDialog();
   }
 
-  function handleListItemClick(e, activity) {
-    props.updateSelected(activity);
-  }
+  const handleDeleteCategory = name => e => {
+    props.deleteCategory(name, props.auth, () => {
+      props.getCategories(props.auth);
+    });
+  };
 
   return (
     <>
@@ -59,7 +65,7 @@ function Categories(props) {
           className={classes.root}
           subheader={
             <ListSubheader component="div" id="recent-activity">
-              Recent Activity
+              Categories
             </ListSubheader>
           }
         >
@@ -75,18 +81,23 @@ function Categories(props) {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText primary={category.name} secondary={category.type} />
+              <ListItemSecondaryAction>
+                <IconButton edge="end" aria-label="delete">
+                  <DeleteIcon onClick={handleDeleteCategory(category.name)} />
+                </IconButton>
+              </ListItemSecondaryAction>
             </ListItem>
           ))}
         </List>
-        <Fab
-          color="primary"
-          aria-label="add"
-          className={classes.fab}
-          onClick={handleAddClick}
-        >
-          <AddIcon />
-        </Fab>
       </Paper>
+      <Fab
+        color="primary"
+        aria-label="add"
+        className={classes.fab}
+        onClick={handleAddClick}
+      >
+        <AddIcon />
+      </Fab>
       <AddCategoryForm />
     </>
   );

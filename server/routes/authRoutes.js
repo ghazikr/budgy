@@ -12,4 +12,5 @@ module.exports = function(app) {
   app.post("/signin", requireSignIn, Authentification.signin);
   app.get("/user_categories", requireAuth, Authentification.getCatgoriesByUser);
   app.post("/add_category", requireAuth, Authentification.addCatgory);
+  app.post("/remove_category", requireAuth, Authentification.removeCatgory);
 };

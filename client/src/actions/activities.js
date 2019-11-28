@@ -13,7 +13,9 @@ import {
   ADD_CATEGORY,
   ADD_CATEGORY_ERROR,
   OPEN_ADD_CATEGORY_DIALOG,
-  CLOSE_ADD_CATEGORY_DIALOG
+  CLOSE_ADD_CATEGORY_DIALOG,
+  REMOVE_CATEGORY,
+  REMOVE_CATEGORY_ERROR
 } from "./types";
 
 export const getActivities = (auth, currentDate) => dispatch => {
@@ -93,8 +95,6 @@ export const actionOnActivity = (
       config
     )
     .then(res => {
-      console.log(res);
-
       callback();
       dispatch({
         type: ADD_ACTIVITY
@@ -137,6 +137,33 @@ export const addCategory = (
       dispatch({
         type: ADD_CATEGORY_ERROR,
         payload: "Problem adding a new category !"
+      });
+    });
+};
+export const deleteCategory = (name, auth, callback) => dispatch => {
+  const config = {
+    headers: {
+      authorization: auth
+    }
+  };
+  axios
+    .post(
+      "http://localhost:5000/remove_category",
+      {
+        name
+      },
+      config
+    )
+    .then(res => {
+      callback();
+      dispatch({
+        type: REMOVE_CATEGORY
+      });
+    })
+    .catch(e => {
+      dispatch({
+        type: REMOVE_CATEGORY_ERROR,
+        payload: "Problem removing a category !"
       });
     });
 };
