@@ -20,11 +20,7 @@ const INTIAL_STATE = {
   incomeValue: 0,
   expensesValue: 0,
   balance: 0,
-  initialValues: {
-    activityType: "expense",
-    date: new Date(),
-    category: "fitness_center"
-  },
+
   errorMessage: "",
   isCategoryDialogOpen: false
 };
