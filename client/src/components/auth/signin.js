@@ -1,10 +1,8 @@
 import React from "react";
-import { reduxForm, Field } from "redux-form";
 import * as actions from "../../actions/index";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Avatar from "@material-ui/core/Avatar";
@@ -13,6 +11,8 @@ import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
+import { Formik } from "formik";
+import { MyTextField } from "../cutom_forms_fiels";
 
 export const useStyles = makeStyles(theme => ({
   "@global": {
@@ -38,32 +38,9 @@ export const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2)
   }
 }));
-export const renderTextField = ({
-  label,
-  input,
-  id,
-  meta: { touched, invalid, error },
-  ...custom
-}) => (
-  <TextField
-    variant="outlined"
-    margin="normal"
-    required
-    fullWidth
-    autoFocus
-    label={label}
-    placeholder={label}
-    error={touched && invalid}
-    helperText={touched && error}
-    {...input}
-    {...custom}
-  />
-);
 
 function Signin(props) {
-  const { handleSubmit } = props;
   const classes = useStyles();
-
   const onSubmit = formProps => {
     props.signin(formProps, () => {
       props.history.push("/activity");
@@ -80,50 +57,43 @@ function Signin(props) {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form
-          className={classes.form}
-          noValidate
-          onSubmit={handleSubmit(onSubmit)}
+        <Formik
+          initialValues={{
+            email: "",
+            password: ""
+          }}
+          onSubmit={onSubmit}
         >
-          <Field
-            id="email"
-            name="email"
-            type="text"
-            placeholder="Email"
-            component={renderTextField}
-            autoComplete="none"
-          />
-          <Field
-            id="password"
-            name="password"
-            type="password"
-            placeholder="Password"
-            component={renderTextField}
-            autoComplete="none"
-          />
-          <div>{props.errorMessage}</div>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="/signup" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
+          {({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+              <MyTextField name="email" type="text" label="Email" />
+              <MyTextField name="password" type="password" label="Password" />
+
+              <div>{props.errorMessage}</div>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Sign In
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  <Link href="#" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link href="/signup" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
+              </Grid>
+            </form>
+          )}
+        </Formik>
       </div>
     </Container>
   );
@@ -132,7 +102,4 @@ function Signin(props) {
 const mapStateToProps = state => ({
   errorMessage: state.auth.errorMessage
 });
-export default compose(
-  reduxForm({ form: "signin" }),
-  connect(mapStateToProps, actions)
-)(Signin);
+export default compose(connect(mapStateToProps, actions))(Signin);

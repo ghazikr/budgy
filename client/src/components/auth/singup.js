@@ -1,15 +1,15 @@
 import React from "react";
-import { reduxForm, Field } from "redux-form";
 import * as actions from "../../actions/index";
-import { compose } from "redux";
 import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
-import { useStyles, renderTextField } from "./signin";
+import { useStyles } from "./signin";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
+import { MyTextField } from "../cutom_forms_fiels";
+import { Formik } from "formik";
 
 function Signup(props) {
   function onSubmit(formProps) {
@@ -19,7 +19,6 @@ function Signup(props) {
   }
 
   const classes = useStyles();
-  const { handleSubmit } = props;
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -30,52 +29,35 @@ function Signup(props) {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form
-          className={classes.form}
-          noValidate
-          onSubmit={handleSubmit(onSubmit)}
+        <Formik
+          initialValues={{
+            name: "",
+            lastName: "",
+            email: "",
+            password: ""
+          }}
+          onSubmit={onSubmit}
         >
-          <Field
-            name="name"
-            type="text"
-            placeholder="Name"
-            component={renderTextField}
-            autoComplete="none"
-          />
-          <Field
-            name="lastName"
-            type="text"
-            placeholder="Last Name"
-            component={renderTextField}
-            autoComplete="none"
-          />
-          <Field
-            id="email"
-            name="email"
-            type="text"
-            placeholder="Email"
-            component={renderTextField}
-            autoComplete="none"
-          />
-          <Field
-            id="password"
-            name="password"
-            type="password"
-            placeholder="Password"
-            component={renderTextField}
-            autoComplete="none"
-          />
-          <div>{props.errorMessage}</div>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign up
-          </Button>
-        </form>
+          {({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+              <MyTextField name="name" type="text" label="Name" />
+              <MyTextField name="lastName" type="text" label="Last Name" />
+              <MyTextField name="email" type="text" label="Email" />
+              <MyTextField name="password" type="password" label="Password" />
+
+              <div>{props.errorMessage}</div>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Sign up
+              </Button>
+            </form>
+          )}
+        </Formik>
       </div>
     </Container>
   );
@@ -84,7 +66,4 @@ function Signup(props) {
 const mapStateToProps = state => ({
   errorMessage: state.auth.errorMessage
 });
-export default compose(
-  reduxForm({ form: "signup" }),
-  connect(mapStateToProps, actions)
-)(Signup);
+export default connect(mapStateToProps, actions)(Signup);

@@ -46,7 +46,7 @@ function Categories(props) {
   const { auth, categories } = props;
   useEffect(() => {
     props.getCategories(auth);
-  });
+  }, []);
 
   function handleAddClick() {
     props.openAddCategoryDialog();
