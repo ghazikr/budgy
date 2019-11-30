@@ -43,14 +43,18 @@ const useStyles = makeStyles(theme => ({
 
 function Categories(props) {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+
+  function handleOpenDialog() {
+    setOpen(true);
+  }
+  function handleCloseDialog() {
+    setOpen(false);
+  }
   const { auth, categories } = props;
   useEffect(() => {
     props.getCategories(auth);
   }, []);
-
-  function handleAddClick() {
-    props.openAddCategoryDialog();
-  }
 
   const handleDeleteCategory = name => e => {
     props.deleteCategory(name, auth, () => {
@@ -94,11 +98,11 @@ function Categories(props) {
         color="primary"
         aria-label="add"
         className={classes.fab}
-        onClick={handleAddClick}
+        onClick={handleOpenDialog}
       >
         <AddIcon />
       </Fab>
-      <AddCategoryForm />
+      <AddCategoryForm dialogProps={{ open, handleCloseDialog }} />
     </>
   );
 }

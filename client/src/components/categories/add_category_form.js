@@ -10,24 +10,32 @@ import * as actions from "../../actions/activities";
 import { useStyles } from "../../components/auth/signin";
 import { MyTextField, MySelectField } from "../cutom_forms_fiels";
 import { Formik } from "formik";
+import { CATEGORY_TYPES } from "../../utils";
+import { MenuItem } from "@material-ui/core";
 
 function AddCategory(props) {
-  const { auth } = props;
+  const {
+    auth,
+    dialogProps: { open, handleCloseDialog },
+    categories
+  } = props;
   const classes = useStyles();
 
   const onSubmit = formProps => {
     props.addCategory(formProps, auth, () => {
       props.getCategories(auth);
+      handleCloseDialog();
     });
   };
-  function handleDialogState() {
-    props.openAddCategoryDialog();
-  }
-
+  const categoriesItems = categories.map(category => (
+    <MenuItem key={category.iconName} value={category.iconName}>
+      {category.name}
+    </MenuItem>
+  ));
   return (
     <Dialog
-      open={props.isCategoryDialogOpen}
-      onClose={handleDialogState}
+      open={open}
+      onClose={handleCloseDialog}
       aria-labelledby="form-dialog-title"
     >
       <DialogTitle id="form-dialog-title">Add a category</DialogTitle>
@@ -50,22 +58,20 @@ function AddCategory(props) {
                   name="type"
                   type="input"
                   label="Category Type"
-                  items={[
-                    <option value="expense" key="expense">
-                      Expense
-                    </option>,
-                    <option value="income" key="income">
-                      Income
-                    </option>
-                  ]}
+                  items={CATEGORY_TYPES}
                 ></MySelectField>
                 <MyTextField name="name" type="text" label="Name" />
-                <MyTextField name="iconName" type="text" label="Icon Name" />
+                {/* <MyTextField name="iconName" type="text" label="Icon Name" /> */}
+                <MySelectField
+                  name="iconName"
+                  type="input"
+                  label="Icon"
+                  items={categoriesItems}
+                ></MySelectField>
               </form>
-              <pre>{JSON.stringify(values, null, 2)}</pre>
             </DialogContent>
             <DialogActions>
-              <Button onClick={props.closeAddCategoryDialog} color="primary">
+              <Button onClick={handleCloseDialog} color="primary">
                 Cancel
               </Button>
               <Button
@@ -87,7 +93,6 @@ function AddCategory(props) {
 const mapStateToProps = state => {
   return {
     errorMessage: state.auth.errorMessage,
-    isCategoryDialogOpen: state.activities.isCategoryDialogOpen,
     auth: state.auth.authenticated,
     categories: state.auth.userCategories
   };

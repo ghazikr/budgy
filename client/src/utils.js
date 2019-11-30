@@ -1,3 +1,6 @@
+import React from "react";
+import { MenuItem } from "@material-ui/core";
+
 export const BASIC_CATEGORIES = {
   expenses: [
     { food: "fast_food" },
@@ -20,3 +23,9 @@ export const BASIC_CATEGORIES = {
     }
   ]
 };
+
+export const CATEGORY_TYPES = ["expense", "income"].map(catTypeName => (
+  <MenuItem value={catTypeName} key={catTypeName}>
+    {catTypeName.charAt(0).toUpperCase() + catTypeName.slice(1)}
+  </MenuItem>
+));

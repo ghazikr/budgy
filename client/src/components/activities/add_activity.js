@@ -17,16 +17,16 @@ import {
 } from "../cutom_forms_fiels";
 
 import { Formik, Field } from "formik";
+import { MenuItem } from "@material-ui/core";
+import { CATEGORY_TYPES } from "../../utils";
 
 function AddActivity(props) {
   const {
-    isActivityDialogOpen,
     errorMessage,
     auth,
-    closeAddActivityDialog,
-    categories
+    categories,
+    dialogProps: { open, handleCloseDialog }
   } = props;
-
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
 
@@ -34,9 +34,9 @@ function AddActivity(props) {
     switch (step) {
       case 0:
         const categoriesItems = categories.map(category => (
-          <option key={category.iconName} value={category.iconName}>
+          <MenuItem key={category.iconName} value={category.iconName}>
             {category.name}
-          </option>
+          </MenuItem>
         ));
         return (
           <MySelectField
@@ -47,21 +47,13 @@ function AddActivity(props) {
           ></MySelectField>
         );
       case 1:
-        const activityTypeItems = [
-          { value: "expense", displayName: "Expense" },
-          { value: "income", displayName: "Income" }
-        ].map(({ value, displayName }) => (
-          <option value={value} key={displayName}>
-            {displayName}
-          </option>
-        ));
         return (
           <>
             <MySelectField
               name="activityType"
               type="input"
               label="Activity Type"
-              items={activityTypeItems}
+              items={CATEGORY_TYPES}
             />
             <MyTextField name="name" type="text" label="Name" />
             <MyTextField name="amount" type="number" label="Amount" />
@@ -73,17 +65,12 @@ function AddActivity(props) {
     }
   }
 
-  function handleDialogState() {
-    props.openAddActivityDialog();
-  }
-
   const steps = ["Choose a category", "Create your activity"];
 
   const handleBack = () => {
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
   const handleClose = () => {
-    closeAddActivityDialog();
     setActiveStep(0);
   };
 
@@ -98,8 +85,8 @@ function AddActivity(props) {
   };
   return (
     <Dialog
-      open={isActivityDialogOpen}
-      onClose={handleDialogState}
+      open={open}
+      onClose={handleCloseDialog}
       aria-labelledby="form-dialog-title"
     >
       <DialogTitle id="form-dialog-title">
@@ -133,7 +120,7 @@ function AddActivity(props) {
               <div>{errorMessage}</div>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleClose} color="primary">
+              <Button onClick={handleCloseDialog} color="primary">
                 Cancel
               </Button>
               {activeStep !== 0 && (
@@ -166,11 +153,9 @@ function AddActivity(props) {
 
 const mapStateToProps = state => {
   return {
-    isActivityDialogOpen: state.activities.isActivityDialogOpen,
     auth: state.auth.authenticated,
     globalDate: state.activities.globalDate,
     dialogTitle: state.activities.dialogTitle,
-    initialValues: state.activities.initialValues, // pull initial values
     categories: state.auth.userCategories
   };
 };

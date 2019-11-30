@@ -4,16 +4,12 @@ import {
   GET_ACTIVITIES_ERROR,
   ADD_ACTIVITY,
   ADD_ACTIVITY_ERROR,
-  OPEN_ADD_ACTIVITY_DIALOG,
-  CLOSE_ADD_ACTIVITY_DIALOG,
   UPDATE_GLOBAL_DATE,
   UPDATE_SELECTED,
   GET_CATEGORIES,
   GET_CATEGORIES_ERROR,
   ADD_CATEGORY,
   ADD_CATEGORY_ERROR,
-  OPEN_ADD_CATEGORY_DIALOG,
-  CLOSE_ADD_CATEGORY_DIALOG,
   REMOVE_CATEGORY,
   REMOVE_CATEGORY_ERROR
 } from "./types";
@@ -168,18 +164,6 @@ export const deleteCategory = (name, auth, callback) => dispatch => {
     });
 };
 
-export const openAddActivityDialog = () => ({
-  type: OPEN_ADD_ACTIVITY_DIALOG
-});
-export const openAddCategoryDialog = () => ({
-  type: OPEN_ADD_CATEGORY_DIALOG
-});
-export const closeAddActivityDialog = () => ({
-  type: CLOSE_ADD_ACTIVITY_DIALOG
-});
-export const closeAddCategoryDialog = () => ({
-  type: CLOSE_ADD_CATEGORY_DIALOG
-});
 export const updateGlobalDate = date => ({
   type: UPDATE_GLOBAL_DATE,
   payload: date
