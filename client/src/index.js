@@ -17,9 +17,6 @@ import { composeWithDevTools } from "redux-devtools-extension";
 const store = createStore(
   reducers,
   {},
-  // {
-  //   auth: { authenticated: localStorage.getItem("token") }
-  // },
   composeWithDevTools(applyMiddleware(reduxThunk))
 );
 

@@ -25,7 +25,7 @@ function AddActivity(props) {
     errorMessage,
     auth,
     categories,
-    dialogProps: { open, handleCloseDialog }
+    dialogProps: { open, setOpen }
   } = props;
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -33,28 +33,28 @@ function AddActivity(props) {
   function getStepContent(step) {
     switch (step) {
       case 0:
+        return (
+          <MySelectField
+            name="activityType"
+            type="input"
+            label="Activity Type"
+            items={CATEGORY_TYPES}
+          />
+        );
+      case 1:
         const categoriesItems = categories.map(category => (
           <MenuItem key={category.iconName} value={category.iconName}>
             {category.name}
           </MenuItem>
         ));
         return (
-          <MySelectField
-            name="category"
-            type="input"
-            label="Category Type"
-            items={categoriesItems}
-          ></MySelectField>
-        );
-      case 1:
-        return (
           <>
             <MySelectField
-              name="activityType"
+              name="category"
               type="input"
-              label="Activity Type"
-              items={CATEGORY_TYPES}
-            />
+              label="Category Type"
+              items={categoriesItems}
+            ></MySelectField>
             <MyTextField name="name" type="text" label="Name" />
             <MyTextField name="amount" type="number" label="Amount" />
             <Field name="date" component={MyCustomDatePicker} />
@@ -65,19 +65,17 @@ function AddActivity(props) {
     }
   }
 
-  const steps = ["Choose a category", "Create your activity"];
+  const steps = ["Choose Your activity Type", "Create your activity"];
 
   const handleBack = () => {
     setActiveStep(prevActiveStep => prevActiveStep - 1);
-  };
-  const handleClose = () => {
-    setActiveStep(0);
   };
 
   const handleNext = formProps => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
     if (activeStep === 1) {
-      handleClose();
+      setOpen(false);
+      setActiveStep(0);
       props.actionOnActivity(props.dialogTitle, formProps, auth, () => {
         props.getActivities(auth, props.globalDate);
       });
@@ -86,7 +84,7 @@ function AddActivity(props) {
   return (
     <Dialog
       open={open}
-      onClose={handleCloseDialog}
+      onClose={() => setOpen(false)}
       aria-labelledby="form-dialog-title"
     >
       <DialogTitle id="form-dialog-title">
@@ -120,7 +118,7 @@ function AddActivity(props) {
               <div>{errorMessage}</div>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleCloseDialog} color="primary">
+              <Button onClick={() => setOpen(false)} color="primary">
                 Cancel
               </Button>
               {activeStep !== 0 && (

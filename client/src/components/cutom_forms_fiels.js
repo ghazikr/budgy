@@ -11,9 +11,11 @@ import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import { useStyles } from "./auth/signin";
 
-function MyTextField({ label, ...props }) {
+function MyTextField({ label, type, ...props }) {
   const classes = useStyles();
   const [field, meta] = useField(props);
+
+  const errorText = meta.error && meta.touched ? meta.error : "";
   return (
     <TextField
       variant="outlined"
@@ -21,8 +23,11 @@ function MyTextField({ label, ...props }) {
       required
       fullWidth
       autoFocus
+      type={type}
       {...field}
       label={label}
+      helperText={errorText}
+      error={!!errorText}
     />
   );
 }

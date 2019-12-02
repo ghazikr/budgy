@@ -13,7 +13,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import { Formik } from "formik";
 import { MyTextField } from "../cutom_forms_fiels";
-
+import * as yup from "yup";
 export const useStyles = makeStyles(theme => ({
   "@global": {
     body: {
@@ -39,6 +39,11 @@ export const useStyles = makeStyles(theme => ({
   }
 }));
 
+const validationSchema = yup.object({
+  email: yup.string().email(),
+  password: yup.string().min(8)
+});
+
 function Signin(props) {
   const classes = useStyles();
   const onSubmit = formProps => {
@@ -62,6 +67,7 @@ function Signin(props) {
             email: "",
             password: ""
           }}
+          validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
           {({ handleSubmit }) => (

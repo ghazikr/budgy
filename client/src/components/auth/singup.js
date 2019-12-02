@@ -10,6 +10,11 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import { MyTextField } from "../cutom_forms_fiels";
 import { Formik } from "formik";
+import * as yup from "yup";
+const validationSchema = yup.object({
+  email: yup.string().email(),
+  password: yup.string().min(8)
+});
 
 function Signup(props) {
   function onSubmit(formProps) {
@@ -36,6 +41,7 @@ function Signup(props) {
             email: "",
             password: ""
           }}
+          validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
           {({ handleSubmit }) => (

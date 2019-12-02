@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import ListSubheader from "@material-ui/core/ListSubheader";
@@ -41,16 +41,18 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+export function useDialog() {
+  const [open, setOpen] = useState(false);
+  return {
+    open,
+    setOpen
+  };
+}
+
 function Categories(props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
 
-  function handleOpenDialog() {
-    setOpen(true);
-  }
-  function handleCloseDialog() {
-    setOpen(false);
-  }
+  const dialogProps = useDialog();
   const { auth, categories } = props;
   useEffect(() => {
     props.getCategories(auth);
@@ -98,11 +100,11 @@ function Categories(props) {
         color="primary"
         aria-label="add"
         className={classes.fab}
-        onClick={handleOpenDialog}
+        onClick={() => dialogProps.setOpen(true)}
       >
         <AddIcon />
       </Fab>
-      <AddCategoryForm dialogProps={{ open, handleCloseDialog }} />
+      <AddCategoryForm dialogProps={dialogProps} />
     </>
   );
 }

@@ -16,7 +16,7 @@ import { MenuItem } from "@material-ui/core";
 function AddCategory(props) {
   const {
     auth,
-    dialogProps: { open, handleCloseDialog },
+    dialogProps: { open, setOpen },
     categories
   } = props;
   const classes = useStyles();
@@ -24,7 +24,7 @@ function AddCategory(props) {
   const onSubmit = formProps => {
     props.addCategory(formProps, auth, () => {
       props.getCategories(auth);
-      handleCloseDialog();
+      setOpen(false);
     });
   };
   const categoriesItems = categories.map(category => (
@@ -35,7 +35,7 @@ function AddCategory(props) {
   return (
     <Dialog
       open={open}
-      onClose={handleCloseDialog}
+      onClose={() => setOpen(false)}
       aria-labelledby="form-dialog-title"
     >
       <DialogTitle id="form-dialog-title">Add a category</DialogTitle>
@@ -61,7 +61,6 @@ function AddCategory(props) {
                   items={CATEGORY_TYPES}
                 ></MySelectField>
                 <MyTextField name="name" type="text" label="Name" />
-                {/* <MyTextField name="iconName" type="text" label="Icon Name" /> */}
                 <MySelectField
                   name="iconName"
                   type="input"
@@ -71,7 +70,7 @@ function AddCategory(props) {
               </form>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleCloseDialog} color="primary">
+              <Button onClick={() => setOpen(false)} color="primary">
                 Cancel
               </Button>
               <Button

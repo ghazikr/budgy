@@ -17,6 +17,7 @@ import AddActivity from "./add_activity";
 import { compose } from "redux";
 import requireAuth from "../hoc/requireAuth";
 import Icon from "@material-ui/core/Icon";
+import { useDialog } from "../categories";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -41,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 
 function Activity(props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const dialogProps = useDialog();
   const { auth, globalDate, activities } = props;
   useEffect(() => {
     props.getCategories(auth);
@@ -50,13 +51,6 @@ function Activity(props) {
   useEffect(() => {
     props.getActivities(auth, globalDate);
   }, [globalDate]);
-
-  function handleOpenDialog() {
-    setOpen(true);
-  }
-  function handleCloseDialog() {
-    setOpen(false);
-  }
 
   function handleListItemClick(e, activity) {
     props.updateSelected(activity);
@@ -115,12 +109,12 @@ function Activity(props) {
           color="primary"
           aria-label="add"
           className={classes.fab}
-          onClick={handleOpenDialog}
+          onClick={() => dialogProps.setOpen(true)}
         >
           <AddIcon />
         </Fab>
       </Paper>
-      <AddActivity dialogProps={{ open, handleCloseDialog }} />
+      <AddActivity dialogProps={dialogProps} />
     </>
   );
 }
