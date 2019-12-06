@@ -3,26 +3,6 @@ const Category = mongoose.model("category");
 const User = mongoose.model("user");
 const Activity = mongoose.model("activity");
 
-const OTHER_CATEGORIES = {
-  expenses: {
-    food: [
-      "fast_food",
-      "local_pizza",
-      "free_break_fast",
-      "local_dining",
-      "outdoor_grill"
-    ],
-    transportation: [
-      "drive_eta",
-      "commute",
-      "motorcycle",
-      "directions_transit"
-    ],
-    shopping: ["local_grocery_store", "shopping_basket", "add_shopping_cart"],
-    entertainment: []
-  }
-};
-
 exports.addActivity = function(req, res, next) {
   const { name, category, amount, date, activityType } = req.body;
   if (!name || !category || !amount || !date || !activityType)

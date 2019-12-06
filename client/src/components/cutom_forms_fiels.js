@@ -5,7 +5,13 @@ import {
 } from "@material-ui/pickers";
 import InputLabel from "@material-ui/core/InputLabel";
 import DateFnsUtils from "@date-io/date-fns";
-import { TextField } from "@material-ui/core";
+import {
+  TextField,
+  MenuItem,
+  ListSubheader,
+  Icon,
+  Input
+} from "@material-ui/core";
 import { useField } from "formik";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
@@ -57,6 +63,54 @@ function MySelectField({ label, items, ...props }) {
     </FormControl>
   );
 }
+const OTHER_CATEGORIES = {
+  food: [
+    "fastfood",
+    "local_pizza",
+    "free_breakfast",
+    "local_dining",
+    "outdoor_grill"
+  ],
+  transportation: ["drive_eta", "commute", "motorcycle", "directions_transit"],
+  shopping: ["local_grocery_store", "shopping_basket", "add_shopping_cart"],
+  entertainment: []
+};
+function IconPicker({ label, items, ...props }) {
+  const classes = useStyles();
+  const [field, meta] = useField(props);
+
+  const categoriesItems = Object.keys(OTHER_CATEGORIES).map(categoryName => {
+    const items = OTHER_CATEGORIES[categoryName];
+    const menuItemsbyCategory = items.map(item => (
+      <MenuItem key={item} value={item}>
+        <Icon>{item}</Icon>
+        {/* {item} */}
+      </MenuItem>
+    ));
+
+    return [
+      <ListSubheader>{categoryName}</ListSubheader>,
+      ...menuItemsbyCategory
+    ];
+  });
+  return (
+    <FormControl variant="filled" className={classes.formControl} fullWidth>
+      <InputLabel htmlFor="grouped-select">Category Icon</InputLabel>
+      <Select
+        input={<Input id="grouped-select" />}
+        // {...field}
+        // value={field.value}
+        // value="fastfood"
+        // onChange={o => console.log(o)}
+      >
+        <MenuItem value="">
+          <em>None</em>
+        </MenuItem>
+        {categoriesItems}
+      </Select>
+    </FormControl>
+  );
+}
 
 const MyCustomDatePicker = ({ field, form, ...props }) => {
   const classes = useStyles();
@@ -78,4 +132,4 @@ const MyCustomDatePicker = ({ field, form, ...props }) => {
   );
 };
 
-export { MyTextField, MySelectField, MyCustomDatePicker };
+export { MyTextField, MySelectField, MyCustomDatePicker, IconPicker };

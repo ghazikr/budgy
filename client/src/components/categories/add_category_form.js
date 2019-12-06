@@ -8,7 +8,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import * as actions from "../../actions/activities";
 import { useStyles } from "../../components/auth/signin";
-import { MyTextField, MySelectField } from "../cutom_forms_fiels";
+import { MyTextField, MySelectField, IconPicker } from "../cutom_forms_fiels";
 import { Formik } from "formik";
 import { CATEGORY_TYPES } from "../../utils";
 import { MenuItem } from "@material-ui/core";
@@ -59,14 +59,15 @@ function AddCategory(props) {
                   type="input"
                   label="Category Type"
                   items={CATEGORY_TYPES}
-                ></MySelectField>
+                />
+                <IconPicker />
                 <MyTextField name="name" type="text" label="Name" />
-                <MySelectField
+                {/* <MySelectField
                   name="iconName"
                   type="input"
                   label="Icon"
                   items={categoriesItems}
-                ></MySelectField>
+                ></MySelectField> */}
               </form>
             </DialogContent>
             <DialogActions>
