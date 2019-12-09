@@ -60,14 +60,8 @@ function AddCategory(props) {
                   label="Category Type"
                   items={CATEGORY_TYPES}
                 />
-                <IconPicker />
+                <IconPicker label="Group Icon" name="iconName" />
                 <MyTextField name="name" type="text" label="Name" />
-                {/* <MySelectField
-                  name="iconName"
-                  type="input"
-                  label="Icon"
-                  items={categoriesItems}
-                ></MySelectField> */}
               </form>
             </DialogContent>
             <DialogActions>

@@ -25,7 +25,7 @@ function MyTextField({ label, type, ...props }) {
   return (
     <TextField
       variant="outlined"
-      margin="normal"
+      className={classes.formControl}
       required
       fullWidth
       autoFocus
@@ -75,16 +75,20 @@ const OTHER_CATEGORIES = {
   shopping: ["local_grocery_store", "shopping_basket", "add_shopping_cart"],
   entertainment: []
 };
+
 function IconPicker({ label, items, ...props }) {
   const classes = useStyles();
   const [field, meta] = useField(props);
-
+  const inputLabel = React.useRef(null);
+  const [labelWidth, setLabelWidth] = React.useState(0);
+  React.useEffect(() => {
+    setLabelWidth(inputLabel.current.offsetWidth);
+  }, []);
   const categoriesItems = Object.keys(OTHER_CATEGORIES).map(categoryName => {
     const items = OTHER_CATEGORIES[categoryName];
     const menuItemsbyCategory = items.map(item => (
       <MenuItem key={item} value={item}>
         <Icon>{item}</Icon>
-        {/* {item} */}
       </MenuItem>
     ));
 
@@ -94,18 +98,16 @@ function IconPicker({ label, items, ...props }) {
     ];
   });
   return (
-    <FormControl variant="filled" className={classes.formControl} fullWidth>
-      <InputLabel htmlFor="grouped-select">Category Icon</InputLabel>
+    <FormControl variant="outlined" className={classes.formControl} fullWidth>
+      <InputLabel ref={inputLabel} id="grouped-select">
+        {label}
+      </InputLabel>
       <Select
-        input={<Input id="grouped-select" />}
-        // {...field}
-        // value={field.value}
-        // value="fastfood"
-        // onChange={o => console.log(o)}
+        id="grouped"
+        labelId="grouped-select"
+        labelWidth={labelWidth}
+        {...field}
       >
-        <MenuItem value="">
-          <em>None</em>
-        </MenuItem>
         {categoriesItems}
       </Select>
     </FormControl>
