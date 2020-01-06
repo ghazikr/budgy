@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import App from "./components/app";
-import Welcome from "./components/welcome";
 import Signup from "./components/auth/singup";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
@@ -24,7 +23,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <App>
-        <Route path="/" exact component={Welcome} />
+        {/* <Route path="/" exact component={Welcome} /> */}
         <Route path="/signup" component={Signup} />
         <Route path="/signout" component={Signout} />
         <Route path="/signin" component={Signin} />

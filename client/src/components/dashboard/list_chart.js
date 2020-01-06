@@ -12,6 +12,20 @@ import * as actions from "../../actions/activities";
 import { compose } from "redux";
 import requireAuth from "../hoc/requireAuth";
 import Icon from "@material-ui/core/Icon";
+import { PieChart, Pie, Sector, Cell, Tooltip } from "recharts";
+
+const createChartData = activities =>
+  activities.map(activity => ({ name: activity.name, value: activity.amount }));
+
+const data = [
+  { name: "Group A", value: 400 },
+  { name: "Group B", value: 300 },
+  { name: "Group C", value: 300 },
+  { name: "Group D", value: 200 }
+];
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+
+const RADIAN = Math.PI / 180;
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -57,6 +71,25 @@ function Activity(props) {
           </ListSubheader>
         }
       >
+        <ListItem>
+          <PieChart width={400} height={200} onMouseEnter={() => {}}>
+            <Pie
+              data={createChartData(activities)}
+              cx={120}
+              cy={80}
+              innerRadius={60}
+              outerRadius={80}
+              fill="#8884d8"
+              paddingAngle={5}
+              label
+            >
+              {data.map((entry, index) => (
+                <Cell fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Pie>
+            <Tooltip />
+          </PieChart>
+        </ListItem>
         {activities.map((activity, index) => (
           <ListItem
             key={index}
