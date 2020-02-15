@@ -13,8 +13,8 @@ function Dashboard() {
   const classes = useStyles();
   return (
     <div className={classes.container}>
-      <ListChart type="expense" title="Expenses List" />
-      <ListChart type="income" title="Income List" />
+      <ListChart type="expense" title="Expenses" />
+      <ListChart type="income" title="Income" />
     </div>
   );
 }

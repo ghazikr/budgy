@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { connect } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useRouteMatch } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import clsx from "clsx";
 import Drawer from "@material-ui/core/Drawer";
@@ -21,7 +21,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import { DatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import DashboardIcon from "@material-ui/icons/Dashboard";
+import PieChartIcon from "@material-ui/icons/PieChart";
 import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
 import CategoryIcon from "@material-ui/icons/Category";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
@@ -98,6 +98,8 @@ function MenuAppBar({ auth, children, globalDate, updateGlobalDate }) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const currentPath = useLocation().pathname;
+
   function handleDateChange(date) {
     updateGlobalDate(date);
   }
@@ -109,6 +111,9 @@ function MenuAppBar({ auth, children, globalDate, updateGlobalDate }) {
     setOpen(false);
   };
   function renderLinks() {
+    if (auth && currentPath === "/categories") {
+      return;
+    }
     if (auth)
       return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -133,7 +138,6 @@ function MenuAppBar({ auth, children, globalDate, updateGlobalDate }) {
       </div>
     );
   }
-  const currentPath = useLocation().pathname;
 
   return (
     <div className={classes.root}>
@@ -199,7 +203,7 @@ function MenuAppBar({ auth, children, globalDate, updateGlobalDate }) {
               {
                 menuItemName: "Dashboard",
                 path: "/dashboard",
-                icon: <DashboardIcon />
+                icon: <PieChartIcon />
               },
               {
                 menuItemName: "Categories",

@@ -12,17 +12,11 @@ import * as actions from "../../actions/activities";
 import { compose } from "redux";
 import requireAuth from "../hoc/requireAuth";
 import Icon from "@material-ui/core/Icon";
-import { PieChart, Pie, Sector, Cell, Tooltip } from "recharts";
+import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
 const createChartData = activities =>
   activities.map(activity => ({ name: activity.name, value: activity.amount }));
 
-const data = [
-  { name: "Group A", value: 400 },
-  { name: "Group B", value: 300 },
-  { name: "Group C", value: 300 },
-  { name: "Group D", value: 200 }
-];
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 const RADIAN = Math.PI / 180;
@@ -53,6 +47,7 @@ const useStyles = makeStyles(theme => ({
 function Activity(props) {
   const classes = useStyles();
   const { auth, globalDate, activities } = props;
+  const data = createChartData(activities);
   useEffect(() => {
     props.getActivities(auth, globalDate);
   }, [globalDate]);
@@ -72,22 +67,28 @@ function Activity(props) {
         }
       >
         <ListItem>
-          <PieChart width={400} height={200} onMouseEnter={() => {}}>
+          <PieChart width={400} height={200}>
             <Pie
-              data={createChartData(activities)}
+              data={data}
+              dataKey="value"
+              nameKey="name"
               cx={120}
               cy={80}
               innerRadius={60}
-              outerRadius={80}
               fill="#8884d8"
               paddingAngle={5}
               label
+              isAnimationActive={true}
             >
               {data.map((entry, index) => (
-                <Cell fill={COLORS[index % COLORS.length]} />
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
               ))}
             </Pie>
             <Tooltip />
+            <Legend align="right" verticalAlign="top" layout="vertical" />
           </PieChart>
         </ListItem>
         {activities.map((activity, index) => (

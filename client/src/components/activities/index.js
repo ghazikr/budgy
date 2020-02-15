@@ -23,11 +23,10 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
     // maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
-    position: "relative"
+    backgroundColor: theme.palette.background.paper
   },
   fab: {
-    position: "absolute",
+    position: "fixed",
     bottom: theme.spacing(4),
     right: theme.spacing(4)
   },
