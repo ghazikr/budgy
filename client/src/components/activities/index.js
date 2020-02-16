@@ -12,7 +12,6 @@ import Typography from "@material-ui/core/Typography";
 import * as actions from "../../actions/activities";
 import { getCategories } from "../../actions/categories";
 import { BASIC_CATEGORIES } from "../../utils";
-
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import AddActivity from "./add_activity";
@@ -20,6 +19,7 @@ import { compose } from "redux";
 import requireAuth from "../hoc/requireAuth";
 import Icon from "@material-ui/core/Icon";
 import { useDialog } from "../categories";
+import { formatDate } from "../../utils";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -45,6 +45,7 @@ function Activity(props) {
   const classes = useStyles();
   const dialogProps = useDialog();
   const { auth, globalDate, activities, getActivities } = props;
+
   useEffect(() => {
     props.getCategories(auth);
   });
@@ -93,7 +94,10 @@ function Activity(props) {
                   <Icon>{activity.category.iconName}</Icon>
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={activity.name} secondary={activity.date} />
+              <ListItemText
+                primary={activity.name}
+                secondary={formatDate(activity.date)}
+              />
               {activity.activityType === "expense"
                 ? `-${activity.amount}`
                 : activity.amount}

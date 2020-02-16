@@ -1,5 +1,6 @@
 import React from "react";
 import { MenuItem } from "@material-ui/core";
+import { format } from "date-fns";
 
 export const BASIC_CATEGORIES = {
   expenses: [
@@ -29,3 +30,5 @@ export const CATEGORY_TYPES = ["expense", "income"].map(catTypeName => (
     {catTypeName.charAt(0).toUpperCase() + catTypeName.slice(1)}
   </MenuItem>
 ));
+
+export const formatDate = date => format(new Date(date), "dd/MM/yyyy HH:mm");

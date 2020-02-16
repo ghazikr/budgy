@@ -18,7 +18,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 
 import AddCategoryForm from "./add_category_form";
-import { Tabs, Tab } from "@material-ui/core";
+import { Tabs, Tab, Paper } from "@material-ui/core";
 import { getFilteredCategories } from "../../reducers/selectors";
 const useStyles = makeStyles(theme => ({
   root: {
@@ -103,7 +103,7 @@ function Categories(props) {
         <Tab label="Income" />
       </Tabs>
       <TabPanel value={tabId} />
-      <TabPanel value={tabId} />
+      {/* <TabPanel value={tabId} /> */}
       <Fab
         color="primary"
         aria-label="add"

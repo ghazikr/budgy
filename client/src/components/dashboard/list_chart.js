@@ -12,6 +12,7 @@ import { compose } from "redux";
 import requireAuth from "../hoc/requireAuth";
 import Icon from "@material-ui/core/Icon";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import { formatDate } from "../../utils";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
@@ -63,7 +64,7 @@ function Activity(props) {
               dataKey="value"
               nameKey="name"
               cx={120}
-              cy={80}
+              cy={100}
               innerRadius={60}
               fill="#8884d8"
               paddingAngle={5}
@@ -92,7 +93,10 @@ function Activity(props) {
                 <Icon>{activity.category.iconName}</Icon>
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={activity.name} secondary={activity.date} />
+            <ListItemText
+              primary={activity.name}
+              secondary={formatDate(activity.date)}
+            />
             {activity.activityType === "expense"
               ? `-${activity.amount}`
               : activity.amount}

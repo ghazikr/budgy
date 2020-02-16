@@ -21,13 +21,12 @@ import ListItemText from "@material-ui/core/ListItemText";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import { DatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import PieChartIcon from "@material-ui/icons/PieChart";
+import TimelineIcon from "@material-ui/icons/Timeline";
 import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
 import CategoryIcon from "@material-ui/icons/Category";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import * as actions from "../actions/activities";
 const drawerWidth = 240;
-
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex"
@@ -203,7 +202,7 @@ function MenuAppBar({ auth, children, globalDate, updateGlobalDate }) {
               {
                 menuItemName: "Dashboard",
                 path: "/dashboard",
-                icon: <PieChartIcon />
+                icon: <TimelineIcon />
               },
               {
                 menuItemName: "Categories",
