@@ -6,12 +6,8 @@ import {
   ADD_ACTIVITY_ERROR,
   UPDATE_GLOBAL_DATE,
   UPDATE_SELECTED,
-  GET_CATEGORIES,
-  GET_CATEGORIES_ERROR,
   ADD_CATEGORY,
-  ADD_CATEGORY_ERROR,
-  REMOVE_CATEGORY,
-  REMOVE_CATEGORY_ERROR
+  ADD_CATEGORY_ERROR
 } from "./types";
 
 export const getActivities = (auth, currentDate) => dispatch => {
@@ -37,27 +33,6 @@ export const getActivities = (auth, currentDate) => dispatch => {
     .catch(e => {
       dispatch({
         type: GET_ACTIVITIES_ERROR,
-        payload: "error retrieving data"
-      });
-    });
-};
-export const getCategories = auth => dispatch => {
-  const config = {
-    headers: {
-      authorization: auth
-    }
-  };
-  axios
-    .get("http://localhost:5000/user_categories", config)
-    .then(res => {
-      dispatch({
-        type: GET_CATEGORIES,
-        payload: res.data.userCategories
-      });
-    })
-    .catch(e => {
-      dispatch({
-        type: GET_CATEGORIES_ERROR,
         payload: "error retrieving data"
       });
     });
@@ -133,33 +108,6 @@ export const addCategory = (
       dispatch({
         type: ADD_CATEGORY_ERROR,
         payload: "Problem adding a new category !"
-      });
-    });
-};
-export const deleteCategory = (name, auth, callback) => dispatch => {
-  const config = {
-    headers: {
-      authorization: auth
-    }
-  };
-  axios
-    .post(
-      "http://localhost:5000/remove_category",
-      {
-        name
-      },
-      config
-    )
-    .then(res => {
-      callback();
-      dispatch({
-        type: REMOVE_CATEGORY
-      });
-    })
-    .catch(e => {
-      dispatch({
-        type: REMOVE_CATEGORY_ERROR,
-        payload: "Problem removing a category !"
       });
     });
 };

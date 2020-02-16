@@ -154,7 +154,7 @@ const mapStateToProps = state => {
     auth: state.auth.authenticated,
     globalDate: state.activities.globalDate,
     dialogTitle: state.activities.dialogTitle,
-    categories: state.auth.userCategories
+    categories: state.categories.userCategories
   };
 };
 

@@ -10,7 +10,9 @@ import Avatar from "@material-ui/core/Avatar";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import * as actions from "../../actions/activities";
+import { getCategories } from "../../actions/categories";
 import { BASIC_CATEGORIES } from "../../utils";
+
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import AddActivity from "./add_activity";
@@ -122,6 +124,6 @@ function mapStateToProps(state) {
   };
 }
 export default compose(
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps, { ...actions, getCategories }),
   requireAuth
 )(Activity);

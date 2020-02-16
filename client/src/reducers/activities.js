@@ -13,9 +13,7 @@ const INTIAL_STATE = {
   incomeValue: 0,
   expensesValue: 0,
   balance: 0,
-
-  errorMessage: "",
-  isCategoryDialogOpen: false
+  errorMessage: ""
 };
 function getTotalValue(activities, type) {
   const value = activities.reduce((total, { activityType, amount }) => {

@@ -88,7 +88,7 @@ const mapStateToProps = state => {
   return {
     errorMessage: state.auth.errorMessage,
     auth: state.auth.authenticated,
-    categories: state.auth.userCategories
+    categories: state.categories.userCategories
   };
 };
 
