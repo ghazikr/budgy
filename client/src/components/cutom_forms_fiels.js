@@ -5,13 +5,7 @@ import {
 } from "@material-ui/pickers";
 import InputLabel from "@material-ui/core/InputLabel";
 import DateFnsUtils from "@date-io/date-fns";
-import {
-  TextField,
-  MenuItem,
-  ListSubheader,
-  Icon,
-  Input
-} from "@material-ui/core";
+import { TextField, MenuItem, ListSubheader, Icon } from "@material-ui/core";
 import { useField } from "formik";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";

@@ -42,14 +42,14 @@ const useStyles = makeStyles(theme => ({
 function Activity(props) {
   const classes = useStyles();
   const dialogProps = useDialog();
-  const { auth, globalDate, activities } = props;
+  const { auth, globalDate, activities, getActivities } = props;
   useEffect(() => {
     props.getCategories(auth);
   });
 
   useEffect(() => {
-    props.getActivities(auth, globalDate);
-  }, [globalDate]);
+    getActivities(auth, globalDate);
+  }, [globalDate, auth, getActivities]);
 
   function handleListItemClick(e, activity) {
     props.updateSelected(activity);
@@ -58,24 +58,18 @@ function Activity(props) {
   return (
     <>
       <Paper className={classes.paperRoot}>
-        <div>
-          <Typography variant="h5" component="h3">
-            Income
-          </Typography>
-          <Typography component="p">{`${props.income}`}</Typography>
-        </div>
-        <div>
-          <Typography variant="h5" component="h3">
-            Expenses
-          </Typography>
-          <Typography component="p">{`${props.expenses}`}</Typography>
-        </div>
-        <div>
-          <Typography variant="h5" component="h3">
-            Balance
-          </Typography>
-          <Typography component="p">{`${props.balance}`}</Typography>
-        </div>
+        {[
+          { key: "Income", value: props.income },
+          { key: "Expenses", value: props.expenses },
+          { key: "Balance", value: props.balance }
+        ].map(elem => (
+          <div key={elem.key} style={{ textAlign: "center" }}>
+            <Typography variant="h5" component="h3">
+              {elem.key}
+            </Typography>
+            <Typography component="p">{`${elem.value}`}</Typography>
+          </div>
+        ))}
       </Paper>
       <Paper className={classes.paperRoot}>
         <List

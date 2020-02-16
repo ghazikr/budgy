@@ -5,7 +5,7 @@ import * as actions from "../../actions/index";
 class Signout extends Component {
   componentDidMount() {
     this.props.signout();
-    this.props.history.push("/");
+    this.props.history.push("/signin");
   }
 
   render() {

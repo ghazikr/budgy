@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import ListSubheader from "@material-ui/core/ListSubheader";
@@ -8,18 +8,15 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import Paper from "@material-ui/core/Paper";
-import * as actions from "../../actions/activities";
 import { compose } from "redux";
 import requireAuth from "../hoc/requireAuth";
 import Icon from "@material-ui/core/Icon";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
-const createChartData = activities =>
-  activities.map(activity => ({ name: activity.name, value: activity.amount }));
-
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
-const RADIAN = Math.PI / 180;
+const createChartData = activities =>
+  activities.map(activity => ({ name: activity.name, value: activity.amount }));
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,11 +25,6 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     position: "relative",
     flexGrow: 1
-  },
-  fab: {
-    position: "absolute",
-    bottom: theme.spacing(4),
-    right: theme.spacing(4)
   },
   paperRoot: {
     padding: theme.spacing(3, 2),
@@ -46,11 +38,8 @@ const useStyles = makeStyles(theme => ({
 
 function Activity(props) {
   const classes = useStyles();
-  const { auth, globalDate, activities } = props;
+  const { activities } = props;
   const data = createChartData(activities);
-  useEffect(() => {
-    props.getActivities(auth, globalDate);
-  }, [globalDate]);
 
   function handleListItemClick(e, activity) {
     props.updateSelected(activity);
@@ -69,6 +58,7 @@ function Activity(props) {
         <ListItem>
           <PieChart width={400} height={200}>
             <Pie
+              isUpdateAnimationActive={true}
               data={data}
               dataKey="value"
               nameKey="name"
@@ -116,12 +106,7 @@ function mapStateToProps(state, props) {
   return {
     activities: state.activities.data.filter(
       activity => activity.activityType === props.type
-    ),
-    auth: state.auth.authenticated,
-    globalDate: state.activities.globalDate
+    )
   };
 }
-export default compose(
-  connect(mapStateToProps, actions),
-  requireAuth
-)(Activity);
+export default compose(connect(mapStateToProps), requireAuth)(Activity);

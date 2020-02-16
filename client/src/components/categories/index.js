@@ -53,10 +53,10 @@ function Categories(props) {
   const classes = useStyles();
 
   const dialogProps = useDialog();
-  const { auth, categories } = props;
+  const { auth, categories, getCategories } = props;
   useEffect(() => {
-    props.getCategories(auth);
-  }, []);
+    getCategories(auth);
+  }, [auth, getCategories]);
 
   const handleDeleteCategory = name => e => {
     props.deleteCategory(name, auth, () => {
