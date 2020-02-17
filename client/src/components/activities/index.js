@@ -98,7 +98,7 @@ function Activity(props) {
                 primary={activity.name}
                 secondary={formatDate(activity.date)}
               />
-              {activity.activityType === "expense"
+              {activity.activityType === "expenses"
                 ? `-${activity.amount}`
                 : activity.amount}
             </ListItem>

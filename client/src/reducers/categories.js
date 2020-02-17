@@ -1,12 +1,14 @@
 import {
   GET_CATEGORIES,
   GET_CATEGORIES_ERROR,
-  UPDATE_TAB_ID
+  UPDATE_TAB_ID,
+  ADD_CATEGORY
 } from "../actions/types";
 
 const INITIAL_STATE = {
   userCategories: [],
-  tabId: 0
+  tabId: 0,
+  categoryToAdd: {}
 };
 export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -24,6 +26,11 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...state,
         tabId: action.payload
+      };
+    case ADD_CATEGORY:
+      return {
+        ...state,
+        categoryToAdd: action.payload
       };
     default:
       return state;

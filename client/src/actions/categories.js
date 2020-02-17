@@ -3,7 +3,9 @@ import {
   GET_CATEGORIES,
   REMOVE_CATEGORY_ERROR,
   REMOVE_CATEGORY,
-  UPDATE_TAB_ID
+  UPDATE_TAB_ID,
+  ADD_CATEGORY,
+  ADD_CATEGORY_ERROR
 } from "./types";
 import axios from "axios";
 
@@ -58,6 +60,42 @@ export const deleteCategory = (name, auth, callback) => dispatch => {
       dispatch({
         type: REMOVE_CATEGORY_ERROR,
         payload: "Problem removing a category !"
+      });
+    });
+};
+
+export const addCategory = (
+  { name, type, iconName },
+  auth,
+  closeDialog
+) => dispatch => {
+  const config = {
+    headers: {
+      authorization: auth
+    }
+  };
+  axios
+    .post(
+      "http://localhost:5000/add_category",
+      {
+        name,
+        type,
+        iconName
+      },
+      config
+    )
+    .then(res => {
+      dispatch({
+        type: ADD_CATEGORY,
+        payload: { name, type, iconName }
+      });
+
+      closeDialog();
+    })
+    .catch(e => {
+      dispatch({
+        type: ADD_CATEGORY_ERROR,
+        payload: "Problem adding a new category !"
       });
     });
 };

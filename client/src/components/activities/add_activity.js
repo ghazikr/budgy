@@ -103,7 +103,7 @@ function AddActivity(props) {
 
       <Formik
         initialValues={{
-          activityType: "expense",
+          activityType: "expenses",
           date: new Date(),
           category: "fastfood",
           name: "",

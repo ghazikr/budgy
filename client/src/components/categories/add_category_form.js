@@ -6,8 +6,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import * as actions from "../../actions/activities";
-import { useStyles } from "../../components/auth/signin";
+import * as actions from "../../actions/categories";
 import { MyTextField, MySelectField, IconPicker } from "../cutom_forms_fiels";
 import { Formik } from "formik";
 import { CATEGORY_TYPES } from "../../utils";
@@ -19,13 +18,9 @@ function AddCategory(props) {
     dialogProps: { open, setOpen },
     categories
   } = props;
-  const classes = useStyles();
 
   const onSubmit = formProps => {
-    props.addCategory(formProps, auth, () => {
-      props.getCategories(auth);
-      setOpen(false);
-    });
+    props.addCategory(formProps, auth, () => setOpen(false));
   };
   const categoriesItems = categories.map(category => (
     <MenuItem key={category.iconName} value={category.iconName}>
@@ -41,7 +36,7 @@ function AddCategory(props) {
       <DialogTitle id="form-dialog-title">Add a category</DialogTitle>
       <Formik
         initialValues={{
-          type: "expense",
+          type: "expenses",
           name: "",
           iconName: ""
         }}
@@ -60,7 +55,7 @@ function AddCategory(props) {
                   label="Category Type"
                   items={CATEGORY_TYPES}
                 />
-                <IconPicker label="Group Icon" name="iconName" />
+                <IconPicker label="Category Icon" name="iconName" />
                 <MyTextField name="name" type="text" label="Name" />
               </form>
             </DialogContent>

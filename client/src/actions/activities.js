@@ -78,39 +78,6 @@ export const actionOnActivity = (
       });
     });
 };
-export const addCategory = (
-  { name, type, iconName },
-  auth,
-  callback
-) => dispatch => {
-  const config = {
-    headers: {
-      authorization: auth
-    }
-  };
-  axios
-    .post(
-      "http://localhost:5000/add_category",
-      {
-        name,
-        type,
-        iconName
-      },
-      config
-    )
-    .then(res => {
-      callback();
-      dispatch({
-        type: ADD_CATEGORY
-      });
-    })
-    .catch(e => {
-      dispatch({
-        type: ADD_CATEGORY_ERROR,
-        payload: "Problem adding a new category !"
-      });
-    });
-};
 
 export const updateGlobalDate = date => ({
   type: UPDATE_GLOBAL_DATE,

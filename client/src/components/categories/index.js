@@ -8,7 +8,6 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Avatar from "@material-ui/core/Avatar";
 import * as actions from "../../actions/categories";
-import { BASIC_CATEGORIES } from "../../utils";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import { compose } from "redux";
@@ -51,7 +50,14 @@ export function useDialog() {
 
 function Categories(props) {
   const classes = useStyles();
-  const { auth, categories, getCategories, updateTabId, tabId } = props;
+  const {
+    auth,
+    categories,
+    getCategories,
+    updateTabId,
+    tabId,
+    categoryToAdd
+  } = props;
 
   const handleChange = (event, newValue) => {
     updateTabId(newValue);
@@ -59,7 +65,7 @@ function Categories(props) {
   const dialogProps = useDialog();
   useEffect(() => {
     getCategories(auth);
-  }, [auth, getCategories]);
+  }, [auth, getCategories, categoryToAdd]);
 
   const handleDeleteCategory = name => e => {
     props.deleteCategory(name, auth, () => {
@@ -120,7 +126,8 @@ function mapStateToProps(state, props) {
   return {
     categories: getFilteredCategories(state),
     auth: state.auth.authenticated,
-    tabId: state.categories.tabId
+    tabId: state.categories.tabId,
+    categoryToAdd: state.categories.categoryToAdd
   };
 }
 export default compose(
