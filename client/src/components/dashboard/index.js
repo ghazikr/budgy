@@ -23,7 +23,7 @@ function Dashboard(props) {
 
   return (
     <div className={classes.container}>
-      <ListChart type="expense" title="Expenses" />
+      <ListChart type="expenses" title="Expenses" />
       <ListChart type="income" title="Income" />
     </div>
   );
