@@ -18,7 +18,7 @@ export const getActivities = (auth, currentDate) => dispatch => {
   };
   axios
     .post(
-      "http://localhost:5000/activity",
+      "/activity",
       {
         currentDate
       },
@@ -52,9 +52,7 @@ export const actionOnActivity = (
 
   axios
     .post(
-      `http://localhost:5000/${
-        DialogTitle === "Add" ? "add_activity" : "update_activity"
-      }`,
+      `/${DialogTitle === "Add" ? "add_activity" : "update_activity"}`,
       {
         name,
         category,

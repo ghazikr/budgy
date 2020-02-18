@@ -21,7 +21,7 @@ export const getCategories = auth => dispatch => {
     }
   };
   axios
-    .get("http://localhost:5000/user_categories", config)
+    .get("/user_categories", config)
     .then(res => {
       dispatch({
         type: GET_CATEGORIES,
@@ -44,7 +44,7 @@ export const deleteCategory = (name, auth, callback) => dispatch => {
   };
   axios
     .post(
-      "http://localhost:5000/remove_category",
+      "/remove_category",
       {
         name
       },
@@ -76,7 +76,7 @@ export const addCategory = (
   };
   axios
     .post(
-      "http://localhost:5000/add_category",
+      "/add_category",
       {
         name,
         type,

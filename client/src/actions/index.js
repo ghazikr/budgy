@@ -3,7 +3,7 @@ import { AUTH_USER, AUTH_ERROR } from "./types";
 
 export const signup = ({ email, password }, callback) => dispatch => {
   axios
-    .post("http://localhost:5000/signup", {
+    .post("/signup", {
       email,
       password
     })
@@ -26,7 +26,7 @@ export const signup = ({ email, password }, callback) => dispatch => {
 
 export const signin = ({ email, password }, callback) => dispatch => {
   axios
-    .post("http://localhost:5000/signin", {
+    .post("/signin", {
       email,
       password
     })
