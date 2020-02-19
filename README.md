@@ -47,22 +47,24 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
 
-### Analyzing the Bundle Size
+# Budgy App
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+> A web app for managing your expenses/income
 
-### Making a Progressive Web App
+Technologies used to build this app:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+### Client side
 
-### Advanced Configuration
+- [Create React App](https://github.com/facebook/create-react-app)
+- [Material UI](https://material-ui.com/)
+- [React Router](https://reacttraining.com/react-router/)
+- [Redux](https://redux.js.org/)
+- [Reselect](https://github.com/reduxjs/reselect)
+- [Yup](https://github.com/jquense/yup)
+- [Redux-Thunk](https://github.com/reduxjs/redux-thunk)
+- [Recharts](http://recharts.org/)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+### Server side
 
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- [Express](https://expressjs.com/)
+- [Passport](http://www.passportjs.org/) with passport-local & jwt

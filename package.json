@@ -1,18 +1,28 @@
 {
-  "name": "server",
+  "name": "budgy",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghazikr/budgy.git"
+  },
+  "keywords": [],
+  "author": "Ghazi Kadardar <ghazikadardar@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ghazikr/budgy/issues"
+  },
   "scripts": {
     "server": "nodemon server",
     "client": "cd client && npm start",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "cd client && npm install && npm run build",
-    "start": "node server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server"
   },
-  "author": "",
-  "license": "ISC",
+  "engines": {
+    "node": "12.16.1"
+  },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.19.0",
@@ -25,7 +35,6 @@
     "morgan": "^1.9.1",
     "nodemon": "^1.19.4",
     "passport": "^0.4.0",
-    "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0"
   },
