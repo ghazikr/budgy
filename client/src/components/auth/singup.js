@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as actions from "../../actions/index";
 import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
@@ -11,6 +11,7 @@ import Container from "@material-ui/core/Container";
 import { MyTextField } from "../cutom_forms_fiels";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { useHistory } from "react-router-dom";
 const validationSchema = yup.object({
   email: yup.string().email(),
   password: yup.string().min(8)
@@ -70,6 +71,7 @@ function Signup(props) {
 }
 
 const mapStateToProps = state => ({
-  errorMessage: state.auth.errorMessage
+  errorMessage: state.auth.errorMessage,
+  authenticated: state.auth.authenticated
 });
 export default connect(mapStateToProps, actions)(Signup);

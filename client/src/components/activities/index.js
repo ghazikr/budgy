@@ -16,7 +16,7 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import AddActivity from "./add_activity";
 import { compose } from "redux";
-import requireAuth from "../hoc/requireAuth";
+import requireAuth from "../hoc/private_route";
 import Icon from "@material-ui/core/Icon";
 import { useDialog } from "../categories";
 import { formatDate } from "../../utils";
@@ -127,7 +127,6 @@ function mapStateToProps(state) {
     balance: state.activities.balance
   };
 }
-export default compose(
-  connect(mapStateToProps, { ...actions, getCategories }),
-  requireAuth
-)(Activity);
+export default connect(mapStateToProps, { ...actions, getCategories })(
+  Activity
+);

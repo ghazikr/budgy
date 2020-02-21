@@ -12,6 +12,7 @@ import Signin from "./components/auth/signin";
 import Activity from "./components/activities";
 import Dashboard from "./components/dashboard";
 import Categories from "./components/categories";
+import PrivateRoute from "./components/hoc/private_route";
 import { composeWithDevTools } from "redux-devtools-extension";
 const store = createStore(
   reducers,
@@ -22,15 +23,7 @@ const store = createStore(
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <App>
-        {/* <Route path="/" exact component={Welcome} /> */}
-        <Route path="/signup" component={Signup} />
-        <Route path="/signout" component={Signout} />
-        <Route path="/signin" component={Signin} />
-        <Route path="/activity" component={Activity} />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/categories" component={Categories} />
-      </App>
+      <App></App>
     </Router>
   </Provider>,
   document.querySelector("#root")

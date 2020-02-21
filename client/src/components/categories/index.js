@@ -11,7 +11,7 @@ import * as actions from "../../actions/categories";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import { compose } from "redux";
-import requireAuth from "../hoc/requireAuth";
+import requireAuth from "../hoc/private_route";
 import Icon from "@material-ui/core/Icon";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
@@ -130,7 +130,4 @@ function mapStateToProps(state, props) {
     categoryToAdd: state.categories.categoryToAdd
   };
 }
-export default compose(
-  connect(mapStateToProps, actions),
-  requireAuth
-)(Categories);
+export default compose(connect(mapStateToProps, actions))(Categories);

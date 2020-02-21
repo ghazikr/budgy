@@ -9,7 +9,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import Paper from "@material-ui/core/Paper";
 import { compose } from "redux";
-import requireAuth from "../hoc/requireAuth";
+import requireAuth from "../hoc/private_route";
 import Icon from "@material-ui/core/Icon";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import { formatDate } from "../../utils";
@@ -113,4 +113,4 @@ function mapStateToProps(state, props) {
     )
   };
 }
-export default compose(connect(mapStateToProps), requireAuth)(Activity);
+export default compose(connect(mapStateToProps))(Activity);

@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import * as actions from "../../actions/activities";
-import requireAuth from "../hoc/requireAuth";
+import requireAuth from "../hoc/private_route";
 const useStyles = makeStyles(theme => ({
   container: {
     display: "flex",
@@ -35,7 +35,4 @@ function mapStateToProps(state, props) {
     globalDate: state.activities.globalDate
   };
 }
-export default compose(
-  connect(mapStateToProps, actions),
-  requireAuth
-)(Dashboard);
+export default compose(connect(mapStateToProps, actions))(Dashboard);

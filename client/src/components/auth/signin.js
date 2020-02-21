@@ -14,6 +14,7 @@ import Container from "@material-ui/core/Container";
 import { Formik } from "formik";
 import { MyTextField } from "../cutom_forms_fiels";
 import * as yup from "yup";
+import { useHistory, useLocation } from "react-router-dom";
 export const useStyles = makeStyles(theme => ({
   "@global": {
     body: {
@@ -50,9 +51,14 @@ const validationSchema = yup.object({
 
 function Signin(props) {
   const classes = useStyles();
+  let history = useHistory();
+  let location = useLocation();
+
+  let { from } = location.state || { from: { pathname: "/activity" } };
+
   const onSubmit = formProps => {
     props.signin(formProps, () => {
-      props.history.push("/activity");
+      history.replace("/activity");
     });
   };
 
